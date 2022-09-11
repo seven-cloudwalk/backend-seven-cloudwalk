@@ -640,7 +640,7 @@
     "@jridgewell/resolve-uri" "^3.0.3"
     "@jridgewell/sourcemap-codec" "^1.4.10"
 
-"@nestjs/cli@^9.0.0":
+"@nestjs/cli@^9.1.2":
   version "9.1.2"
   resolved "https://registry.yarnpkg.com/@nestjs/cli/-/cli-9.1.2.tgz#12d24ef44dd034bcfece8750e5bb7122cfe3e300"
   integrity sha512-J/mFYM/L03//MiKcYX113MkTbA88cjb+4pNdLjeOpVRCbfbQh1zArehGAOvas9+SNRUzUYj31vI1snYKXc0j1g==
@@ -668,7 +668,7 @@
     webpack "5.74.0"
     webpack-node-externals "3.0.0"
 
-"@nestjs/common@^9.0.0":
+"@nestjs/common@^9.0.11":
   version "9.0.11"
   resolved "https://registry.yarnpkg.com/@nestjs/common/-/common-9.0.11.tgz#5747cfbb5d94d909bc2894bf2a5bec83fca809c5"
   integrity sha512-oYLIcOal3QOwcqt6goXovRNg8ZkalyOMjH0oYYzfJLrait6P7c6nAeWHu4qFDThY7GoZHEanLgji1qlqVEW09g==
