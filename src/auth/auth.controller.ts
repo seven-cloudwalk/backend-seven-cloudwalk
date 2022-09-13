@@ -1,4 +1,13 @@
-import { Get, Post, Body, Controller, HttpCode, HttpStatus, UseGuards, Param } from '@nestjs/common';
+import {
+  Get,
+  Post,
+  Body,
+  Controller,
+  HttpCode,
+  HttpStatus,
+  UseGuards,
+  Param,
+} from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiBearerAuth } from '@nestjs/swagger';
 import { Users } from '@prisma/client';
 import { AuthService } from './auth.service';
@@ -18,7 +27,6 @@ export class AuthController {
     summary: 'Realizar login, recebendo um token de autenticação',
   })
   login(@Body() loginDto: LoginDto): Promise<LoginResponseDto> {
-
     //console.log('loginDto:',loginDto);
 
     return this.authService.login(loginDto);
@@ -28,10 +36,9 @@ export class AuthController {
   @UseGuards(AuthGuard())
   @ApiBearerAuth()
   @ApiOperation({
-    summary: 'Retorna o usuário autenticado no momento'
+    summary: 'Retorna o usuário autenticado no momento',
   })
   profile(@LoggedUser() user: Users) {
     return user;
-  } 
-
+  }
 }
