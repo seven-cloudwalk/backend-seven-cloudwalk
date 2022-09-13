@@ -1,0 +1,24 @@
+
+[
+    {
+        "nickname": "nome 1",
+        "email": "nome1@gmail.com",
+        "password": "senha1",
+        "pj": false,
+        "role": true
+    },
+    {
+        "nickname": "nome 2",
+        "email": "nome2@gmail.com",
+        "password": "senha2",
+        "pj": false,
+        "role": true
+    },
+    {
+        "nickname": "nome 3",
+        "email": "nome3@gmail.com",
+        "password": "senha3",
+        "pj": false,
+        "role": true
+    }
+]
