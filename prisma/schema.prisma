@@ -1,0 +1,71 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+//npx prisma migrate dev
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Users {
+  id       String  @id @default(uuid())
+  nickname String  @db.VarChar(20)
+  email    String  @unique @db.VarChar(100)
+  password String  @db.VarChar(129)
+  pj       Boolean @default(false)
+  role     Boolean @default(false)
+
+  order Orders[]
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @default(now()) @map("updated_at")
+
+  @@map("users")
+}
+
+model Orders {
+  id String @id @default(uuid())
+
+  user   Users  @relation(fields: [userId], references: [id])
+  userId String // relation scalar field  (used in the `@relation` attribute above)
+
+  details OrderDetails[]
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @default(now()) @map("updated_at")
+}
+
+model OrderDetails {
+  id String @id @default(uuid())
+
+  order   Orders @relation(fields: [orderId], references: [id])
+  orderId String // relation scalar field  (used in the `@relation` attribute above)
+
+  product   Produtcs @relation(fields: [productId], references: [id])
+  productId String // relation scalar field  (used in the `@relation` attribute above)
+
+  quantity Int
+
+  @@map("order_details")
+}
+
+model Produtcs {
+  id          String  @id @unique @default(uuid())
+  cod         Int
+  description String  @db.VarChar(100)
+  price       Float
+  image       String  @db.VarChar(200)
+  stock       Boolean @default(false)
+
+  details OrderDetails[]
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @default(now()) @map("updated_at")
+
+  @@map("products")
+}
