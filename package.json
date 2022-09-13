@@ -2,7 +2,7 @@
   "name": "backend-seven-cloudwalk",
   "version": "0.0.1",
   "description": "",
-  "author": "",
+  "author": "Charles Marques <charles_sjp@yahoo.com.br>",
   "private": true,
   "license": "UNLICENSED",
   "scripts": {
@@ -42,7 +42,7 @@
     "uuidv4": "^6.2.13"
   },
   "devDependencies": {
-    "@nestjs/cli": "^9.0.0",
+    "@nestjs/cli": "^9.1.2",
     "@nestjs/schematics": "^9.0.0",
     "@nestjs/testing": "^9.0.0",
     "@types/express": "^4.17.13",
@@ -81,5 +81,7 @@
     ],
     "coverageDirectory": "../coverage",
     "testEnvironment": "node"
-  }
+  },
+  "main": "index.js",
+  "repository": "https://github.com/seven-cloudwalk/backend-seven-cloudwalk.git"
 }
