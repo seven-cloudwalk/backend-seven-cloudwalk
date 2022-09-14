@@ -19,8 +19,6 @@ export class AuthController {
   })
   login(@Body() loginDto: LoginDto): Promise<LoginResponseDto> {
 
-    //console.log('loginDto:',loginDto);
-
     return this.authService.login(loginDto);
   }
 
