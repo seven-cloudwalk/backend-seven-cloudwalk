@@ -16,10 +16,7 @@ export class AuthService {
   async login(loginDto: LoginDto): Promise<LoginResponseDto> {
     const { email, password } = loginDto;
 
-    //console.log('email:',email);
-    //console.log('password:',password);
-
-    // Procura e checa se o user existe, usando o nickname
+    // Procura e checa se o user existe, usando o email
     const user =await this.prisma.users.findUnique({ where: { email: email } });
 
     if (!user) {
