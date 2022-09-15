@@ -13,10 +13,12 @@ export class ProductService {
     return this.prisma.product.findMany();
   }
 
-  create(createProductDto: CreateProductDto): Promise<Product> {
-    return this.prisma.product
-      .create({ data: createProductDto })
-      .catch(handleErrorConstraintUnique);
+  async create(createProductDto: CreateProductDto): Promise<Product> {
+    try {
+      return await this.prisma.product.create({ data: createProductDto });
+    } catch (error) {
+      return handleErrorConstraintUnique(error);
+    }
   }
 
   async verifyingTheProducts(id: string): Promise<Product> {
