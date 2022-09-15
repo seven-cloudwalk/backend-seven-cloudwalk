@@ -1,26 +1,58 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { PrismaService } from 'src/prisma/prisma.service';
+import { handleErrorConstraintUnique } from 'src/utils/handle.error.utils';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
+import { Product } from './entities/product.entity';
 
 @Injectable()
-export class ProductsService {
-  findAll() {
-    return `This action returns all products`;
+export class ProductService {
+  constructor(private readonly prisma: PrismaService) {}
+
+  findAll(): Promise<Product[]> {
+    return this.prisma.product.findMany();
   }
 
-  create(createProductDto: CreateProductDto) {
-    return 'This action adds a new product';
+  async create(createProductDto: CreateProductDto): Promise<Product> {
+    try {
+      return await this.prisma.product.create({ data: createProductDto });
+    } catch (error) {
+      return handleErrorConstraintUnique(error);
+    }
   }
 
-  findOne(id: string) {
-    return `This action returns a #${id} product`;
+  async verifyingTheProducts(id: string): Promise<Product> {
+    const products: Product = await this.prisma.product.findUnique({
+      where: { id },
+    });
+
+    if (!products) {
+      throw new NotFoundException(`ID '${id}' não encontrado`);
+    }
+
+    return products;
   }
 
-  update(id: string, updateProductDto: UpdateProductDto) {
-    return `This action updates a #${id} product`;
+  findOne(id: string): Promise<Product> {
+    return this.verifyingTheProducts(id);
   }
 
-  delete(id: string) {
-    return `This action removes a #${id} product`;
+  async update(
+    id: string,
+    updateProductDto: UpdateProductDto,
+  ): Promise<Product | void> {
+    await this.verifyingTheProducts(id);
+    return this.prisma.product
+      .update({
+        where: { id },
+        data: updateProductDto,
+      })
+      .catch(handleErrorConstraintUnique);
+  }
+
+  async delete(id: string) {
+    await this.verifyingTheProducts(id);
+
+    return this.prisma.product.delete({ where: { id: id } });
   }
 }
