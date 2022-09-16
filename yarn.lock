@@ -640,6 +640,7 @@
     "@jridgewell/resolve-uri" "^3.0.3"
     "@jridgewell/sourcemap-codec" "^1.4.10"
 
+
 "@mapbox/node-pre-gyp@^1.0.0":
   "integrity" "sha512-4ySo4CjzStuprMwk35H5pPbkymjv1SF3jGLj6rAHp/xT/RF7TL7bd9CTm1xDY49K2qF7jmR/g7k+SkLETP6opA=="
   "resolved" "https://registry.npmjs.org/@mapbox/node-pre-gyp/-/node-pre-gyp-1.0.10.tgz"
@@ -691,7 +692,6 @@
     "iterare" "1.2.1"
     "tslib" "2.4.0"
     "uuid" "8.3.2"
-
 "@nestjs/core@^9.0.0", "@nestjs/core@^9.0.11":
   "integrity" "sha512-DYyoiWSGebDAG8WSfG/ue88HBU39kAJTi2YXftWdVSl1LFveV+pwKY83P2qX0ND38TS8WktFYpaMkXslf97BBQ=="
   "resolved" "https://registry.npmjs.org/@nestjs/core/-/core-9.0.11.tgz"
