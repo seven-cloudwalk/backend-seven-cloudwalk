@@ -23,7 +23,7 @@ export class CreateUserDto {
     })
     password:  string;
 
-    @IsString()
+    @IsBoolean()
     @ApiProperty({
       description: 'informa se este usuário é uma pessoa jurídica',
       example: 'true'

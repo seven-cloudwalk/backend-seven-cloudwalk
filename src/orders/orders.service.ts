@@ -1,8 +1,8 @@
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
+import { handleErrorConstraintUnique } from 'src/utils/handle.error.utils';
 import { CreateOrderDto } from './dto/create-order.dto';
 import { UpdateOrderDto } from './dto/update-order.dto';
-
 
 @Injectable()
 export class OrdersService {
@@ -44,7 +44,12 @@ export class OrdersService {
     };
 
     // cria o pedido com os detalhes
-    return this.prisma.orders.create( { data: _data });
+    try {
+      return await this.prisma.orders.create( { data: _data });
+    } catch (error) {
+      return handleErrorConstraintUnique(error);
+    }
+        
   }
 
   async update(_id: string, dto: UpdateOrderDto) {
@@ -62,14 +67,18 @@ export class OrdersService {
     }
 
     // altera o pedido incluindo novos itens
-    return await this.prisma.orders.update({
+    try {
+      return await this.prisma.orders.update({
         where: { id: _id },
         data : {
           details: {
             create: dto.details
           }
         },
-    });
+      });
+    } catch (error) {
+      return handleErrorConstraintUnique(error);
+    }
   }
 
   async delete(_id: string) {

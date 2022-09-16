@@ -1,5 +1,7 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
-import { ApiTags, ApiOperation } from '@nestjs/swagger';
+import { ApiTags, ApiOperation, ApiBearerAuth } from '@nestjs/swagger';
+import { Users } from '@prisma/client';
+import { LoggedUser } from 'src/auth/logged-user.decorator';
 import { CreateOrderDto } from './dto/create-order.dto';
 import { UpdateOrderDto } from './dto/update-order.dto';
 import { OrdersService } from './orders.service';
@@ -18,6 +20,7 @@ export class OrdersController {
   }
 
   @Get(':id')
+  @ApiBearerAuth()
   @ApiOperation({
     summary: 'Listar um pedido',
   })      
@@ -26,14 +29,16 @@ export class OrdersController {
   }
 
   @Post()
+  @ApiBearerAuth()
   @ApiOperation({
     summary: 'Criar pedido',
   })      
-  create(@Body() createOrderDto: CreateOrderDto) {
+  create(@LoggedUser() user: Users, @Body() createOrderDto: CreateOrderDto) {
     return this.ordersService.create(createOrderDto);
   }
 
   @Patch(':id')
+  @ApiBearerAuth()
   @ApiOperation({
     summary: 'Alterar um pedido',
   })      
@@ -42,6 +47,7 @@ export class OrdersController {
   }
 
   @Delete(':id')
+  @ApiBearerAuth()
   @ApiOperation({
     summary: 'Deletar um pedido',
   })      

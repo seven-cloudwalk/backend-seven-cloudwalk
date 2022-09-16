@@ -46,7 +46,7 @@ model OrderDetails {
   order   Orders @relation(fields: [orderId], references: [id])
   orderId String // relation scalar field  (used in the `@relation` attribute above)
 
-  product   Produtcs @relation(fields: [productId], references: [id])
+  product   Product @relation(fields: [productId], references: [id])
   productId String // relation scalar field  (used in the `@relation` attribute above)
 
   quantity Int
@@ -54,7 +54,7 @@ model OrderDetails {
   @@map("order_details")
 }
 
-model Produtcs {
+model Product {
   id          String  @id @unique @default(uuid())
   name        String  @unique @db.VarChar(50)
   cod         Int

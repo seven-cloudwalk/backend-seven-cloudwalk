@@ -7,9 +7,9 @@ export class CreateOrderDto {
     @IsString()
     @ApiProperty({
       description: 'id do usuário do pedido',
-      example: 'xxxxxxxxxxxx-xxxxxxxxxxxx-xxxxxxx'
+      example: 'xxxxxxxxx-xxxxxxxxxxxx-xxxxxxxxx'
     })
-    userId: string;
+    userId:  string;
 
     @IsArray()
     @Type(() => Object)    
@@ -18,5 +18,6 @@ export class CreateOrderDto {
       example: '[{ "productId":"xxxxxxxxx-xxxxxxxxxxxx-xxxxxxxxx", "quantity": 4 }]'
     })
     details:  OrderDetails[];
+
 }
 
