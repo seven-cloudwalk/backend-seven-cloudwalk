@@ -23,7 +23,7 @@ model Users {
   order Orders[]
 
   createdAt DateTime @default(now()) @map("created_at")
-  updatedAt DateTime @default(now()) @map("updated_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
 
   @@map("users")
 }
@@ -36,8 +36,8 @@ model Orders {
 
   details OrderDetails[]
 
-  createdAt DateTime @default(now()) @map("created_at")
-  updatedAt DateTime @default(now()) @map("updated_at")
+  createdAt DateTime  @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
 }
 
 model OrderDetails {
@@ -66,7 +66,7 @@ model Produtcs {
   details OrderDetails[]
 
   createdAt DateTime @default(now()) @map("created_at")
-  updatedAt DateTime @default(now()) @map("updated_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
 
   @@map("products")
 }
@@ -77,7 +77,7 @@ model Favorite {
   idproduct String @unique
 
   createdAt DateTime @default(now()) @map("created_at")
-  updatedAt DateTime @default(now()) @map("updated_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
 
   @@map("favorite")
 }
