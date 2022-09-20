@@ -21,6 +21,7 @@ model Users {
   role     Boolean @default(false)
 
   order Orders[]
+  favorite Favorite[]
 
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
@@ -64,6 +65,7 @@ model Product {
   stock       Boolean @default(false)
 
   details OrderDetails[]
+  products Favorite[]
 
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
@@ -73,11 +75,14 @@ model Product {
 
 model Favorite {
   id        String @id @unique @default(uuid())
-  iduser    String @unique
-  idproduct String @unique
+  favoriteAt DateTime @default(now()) @map("favorited_at")
 
-  createdAt DateTime @default(now()) @map("created_at")
-  updatedAt DateTime @updatedAt @map("updated_at")
+  user Users @relation(fields: [iduser], references: [id], onDelete: Cascade)
+  iduser String @map("id_user")
 
+  product Product @relation(fields: [idproduct], references: [id], onDelete: Cascade)
+  idproduct String @map("id_product")
+ 
   @@map("favorite")
+  @@unique([iduser, idproduct])
 }
