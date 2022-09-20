@@ -4,20 +4,12 @@ import { IsString, IsBoolean, IsObject, IsArray } from 'class-validator';
 import { OrderDetails } from '@prisma/client';
 
 export class CreateOrderDto {
-    @IsString()
-    @ApiProperty({
-      description: 'id do usuário do pedido',
-      example: 'xxxxxxxxx-xxxxxxxxxxxx-xxxxxxxxx'
-    })
-    userId:  string;
-
     @IsArray()
     @Type(() => Object)    
     @ApiProperty({
       description: 'detalhes do pedido',
-      example: '[{ "productId":"xxxxxxxxx-xxxxxxxxxxxx-xxxxxxxxx", "quantity": 4 }]'
+      example: '[{ "productId":"xxxxxxxxx-xxxxxxxxx-0", "quantity": 4 }]'
     })
     details:  OrderDetails[];
-
 }
 

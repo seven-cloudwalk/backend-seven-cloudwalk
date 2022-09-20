@@ -1,4 +1,5 @@
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
+import { networkInterfaces } from 'os';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { handleErrorConstraintUnique } from 'src/utils/handle.error.utils';
 import { CreateOrderDto } from './dto/create-order.dto';
@@ -30,14 +31,14 @@ export class OrdersService {
     return record;
   }
 
-  async create(dto: CreateOrderDto) {
+  async create(userId: string, dto: CreateOrderDto) {
 
     if( ! dto.details.length ) {
-      throw new BadRequestException(`Não há itens neste pedido.`);
+      throw new BadRequestException(`Este pedido não contém itens.`);
     }
 
     let _data = {
-      userId: dto.userId,
+      userId: userId,
       details: {
         create : dto.details
       }
@@ -59,44 +60,55 @@ export class OrdersService {
         throw new NotFoundException(`Registro ID:'${_id}' não localizado.`)
     };
 
-    // remove todos os detalhes do pedido para futura inclusão
-    if( dto.details.length ) {
-      await this.prisma.orderDetails.deleteMany({
-        where: { orderId: _id },
-      });
+    if( ! dto.details.length ) {
+      throw new BadRequestException(`Este pedido não contém itens.`);
     }
 
-    // altera o pedido incluindo novos itens
     try {
-      return await this.prisma.orders.update({
+      // remove todos os detalhes do pedido para futura inclusão
+      const oldDetails = this.prisma.orderDetails.deleteMany({
+          where: { orderId: _id },
+        });
+
+      // altera o pedido incluindo novos itens
+      const newOrder =  this.prisma.orders.update({
         where: { id: _id },
         data : {
+          updatedAt: new Date(),
           details: {
             create: dto.details
           }
         },
       });
+
+      // tenta efetuar a alteração
+      return await this.prisma.$transaction( [oldDetails, newOrder] );
+
     } catch (error) {
       return handleErrorConstraintUnique(error);
-    }
+    };
   }
 
   async delete(_id: string) {
-    try {
-      const record =await this.prisma.orders.findUnique({ where: { id: _id, } });
-      if (!record) {
-          throw new NotFoundException(`Registro ID:'${_id}' não localizado.`)
-      };
 
+    const record =await this.prisma.orders.findUnique({ where: { id: _id, } });
+    if (!record) {
+        throw new NotFoundException(`Registro ID:'${_id}' não localizado.`)
+    };
+
+    try {
       // remove os dettalhes do pedido
-      await this.prisma.orderDetails.deleteMany({
+      const oldDetails =this.prisma.orderDetails.deleteMany({
         where: { orderId: _id },
       });
 
       // remove o pedido
-      return this.prisma.orders.delete({
+      const oldOrder = this.prisma.orders.delete({
         where: { id: _id, },
       });   
+
+      // tenta efetuar a exclusão
+      return await this.prisma.$transaction( [oldDetails, oldOrder] );
     }
     catch( e ) {
         throw new NotFoundException(`Não foi possível deletar o registro ID:${_id}`)
