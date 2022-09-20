@@ -5,7 +5,7 @@ export class FavoriteProductDto {
   @IsUUID()
   @ApiProperty({
     description: 'ID do usuário',
-    example: 'e53aa5d6-89ca-47c0-b42b-fcb2c55ce751',
+    example: 'e53aa5d6-89ca-47c0-b42b-fcb2c55ce744',
   })
   iduser: string;
 
@@ -13,7 +13,7 @@ export class FavoriteProductDto {
   @IsNotEmpty()
   @ApiProperty({
     description: 'ID do produto',
-    example: 'e53aa5d6-89ca-47c0-b42b-fcb2c55ce751',
+    example: 'e53aa5d6-89ca-47c0-b42b-fcb2c55ce755',
   })
   idproduct: string;
 }

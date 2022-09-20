@@ -16,6 +16,7 @@ async function bootstrap() {
     .addTag('users')
     .addTag('products')
     .addTag('orders')
+    .addTag('favorite')
     .addBearerAuth()
     .build();
 
