@@ -1,5 +1,4 @@
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
-import { networkInterfaces } from 'os';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { handleErrorConstraintUnique } from 'src/utils/handle.error.utils';
 import { CreateOrderDto } from './dto/create-order.dto';

@@ -37,12 +37,3 @@ export class CreateUserDto {
     })
     role:  boolean;
 }
-
-
-  @IsBoolean()
-  @ApiProperty({
-    description: 'Informa se este usuário é um administrador',
-    example: 'false',
-  })
-  role: boolean;
-}
