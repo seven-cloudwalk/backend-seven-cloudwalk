@@ -1,12 +1,16 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards } from '@nestjs/common';
+import { AuthGuard } from '@nestjs/passport';
 import { ApiTags, ApiOperation, ApiBearerAuth } from '@nestjs/swagger';
 import { Users } from '@prisma/client';
-import { LoggedUser } from 'src/auth/logged-user.decorator';
 import { CreateOrderDto } from './dto/create-order.dto';
 import { UpdateOrderDto } from './dto/update-order.dto';
 import { OrdersService } from './orders.service';
+import { LoggedUser } from 'src/auth/logged-user.decorator';
+
 
 @ApiTags('orders')
+@UseGuards(AuthGuard())
+@ApiBearerAuth()
 @Controller('orders')
 export class OrdersController {
   constructor(private readonly ordersService: OrdersService) {}
@@ -20,21 +24,19 @@ export class OrdersController {
   }
 
   @Get(':id')
-  @ApiBearerAuth()
   @ApiOperation({
     summary: 'Listar um pedido',
   })      
-  findOne(@Param('id') id: string) {
+  findOne(@LoggedUser() user: Users,@Param('id') id: string) {
     return this.ordersService.findOne(id);
   }
 
   @Post()
-  @ApiBearerAuth()
   @ApiOperation({
     summary: 'Criar pedido',
   })      
   create(@LoggedUser() user: Users, @Body() createOrderDto: CreateOrderDto) {
-    return this.ordersService.create(createOrderDto);
+    return this.ordersService.create(user.id, createOrderDto);
   }
 
   @Patch(':id')
