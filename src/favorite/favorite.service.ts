@@ -10,4 +10,12 @@ export class FavoriteService {
   favoriteProduct(dto: FavoriteProductDto): Promise<Favorite> {
     return this.prisma.favorite.create({ data: dto });
   }
+
+  unfavoriteProduct(id: string) {
+    return this.prisma.favorite.delete({ where: { id } });
+  }
+
+  getUserFavorites(id: string): Promise<Favorite[]> {
+    return this.prisma.favorite.findMany({ where: { iduser: id } });
+  }
 }
