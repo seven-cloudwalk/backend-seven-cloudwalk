@@ -23,17 +23,17 @@ export class CreateUserDto {
   })
   password: string;
   
-    @IsBoolean()
-    @ApiProperty({
-      description: 'informa se este usuário é uma pessoa jurídica',
-      example: 'true'
-    })
-    pj:   boolean;
-    
-    @IsBoolean()
-    @ApiProperty({
-      description: 'Informa se este usuário é um administrador',
-      example: 'false'
-    })
-    role:  boolean;
+  @IsBoolean()
+  @ApiProperty({
+    description: 'informa se este usuário é uma pessoa jurídica',
+    example: 'true',
+  })
+  pj: boolean;
+
+  @IsBoolean()
+  @ApiProperty({
+    description: 'Informa se este usuário é um administrador',
+    example: 'false',
+  })
+  role: boolean;
 }

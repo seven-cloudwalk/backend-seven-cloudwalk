@@ -10,6 +10,7 @@ export class FavoriteProductDto {
   iduser: string;
 
   @IsString()
+  @IsUUID()
   @IsNotEmpty()
   @ApiProperty({
     description: 'ID do produto',
