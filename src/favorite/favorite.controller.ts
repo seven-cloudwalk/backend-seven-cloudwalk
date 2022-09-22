@@ -19,20 +19,34 @@ export class FavoriteController {
 
   @Post('favorite')
   @ApiOperation({
-    summary: 'Favoritar um produto',
+    summary: 'Favoritar um produto.',
   })
   favoriteProduct(@Body() dto: FavoriteProductDto): Promise<Favorite> {
     return this.favoriteService.favoriteProduct(dto);
   }
 
   @Delete(':id')
+  @ApiOperation({
+    summary: 'Desfavoritar um produto.',
+  })
   @HttpCode(HttpStatus.NO_CONTENT)
   unfavoriteProduct(@Param('id') id: string) {
     return this.favoriteService.unfavoriteProduct(id);
   }
 
-  @Get('/user/:id')
+  @Get('user/:id')
+  @ApiOperation({
+    summary: 'Encontrar um favorito por usuário.',
+  })
   getUserFavorites(@Param('id') id: string): Promise<Favorite[]> {
     return this.favoriteService.getUserFavorites(id);
+  }
+
+  @Get('product/:id')
+  @ApiOperation({
+    summary: 'Encontrar produtos favoritados.',
+  })
+  getProductFavorites(@Param('id') id: string): Promise<Favorite[]> {
+    return this.favoriteService.getProductWhoFavorites(id);
   }
 }
