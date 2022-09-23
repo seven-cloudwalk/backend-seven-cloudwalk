@@ -40,7 +40,6 @@ export class OrdersController {
   }
 
   @Patch(':id')
-  @ApiBearerAuth()
   @ApiOperation({
     summary: 'Alterar um pedido',
   })      
@@ -49,7 +48,6 @@ export class OrdersController {
   }
 
   @Delete(':id')
-  @ApiBearerAuth()
   @ApiOperation({
     summary: 'Deletar um pedido',
   })      

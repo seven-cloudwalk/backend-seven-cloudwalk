@@ -10,7 +10,7 @@ async function bootstrap() {
 
   const config = new DocumentBuilder()
     .setTitle('')
-    .setDescription('Aplicação de controle de produtos')
+    .setDescription('Aplicação de Gerenciamento de E-commerce')
     .setVersion('1.0.0')
     .addTag('auth')
     .addTag('users')

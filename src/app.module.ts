@@ -7,7 +7,6 @@ import { OrdersModule } from './orders/orders.module';
 import { ProductsModule } from './products/products.module';
 import { PassportModule } from '@nestjs/passport';
 import { JwtModule } from '@nestjs/jwt';
-import { JwtStrategy } from './auth/jwt.strategy';
 import { FavoriteModule } from './favorite/favorite.module';
 
 @Module({
