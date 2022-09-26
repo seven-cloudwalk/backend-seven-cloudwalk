@@ -58,6 +58,7 @@ export class ProductService {
       let productsToDownload = [];
       let updates = [];
 
+      // localiza pelo ID desconto informado pelo usuário para o produto
       function findDiscount(id :string) {
         return dto.find( (prod) => prod.id === id );
       }
