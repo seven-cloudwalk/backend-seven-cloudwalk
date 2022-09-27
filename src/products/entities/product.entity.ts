@@ -5,6 +5,6 @@ export class Product {
   price: number;
   image: string;
   stock: boolean;
-  createdAt: Date;
-  updatedAt: Date;
+  createdAt?: Date;
+  updatedAt?: Date;
 }
