@@ -19,7 +19,6 @@ import { Users } from '@prisma/client';
 import { AuthGuard } from '@nestjs/passport';
 import { LoggedUser } from 'src/auth/logged-user.decorator';
 
-
 @ApiTags('products')
 @UseGuards(AuthGuard())
 @ApiBearerAuth()
@@ -63,9 +62,12 @@ export class ProductsController {
     summary: 'Atualiza preços dos produtos',
   })
   @Patch()
-  priceUpdate(@LoggedUser() user: Users, @Body() priceUpdateProductDto: PriceUpdateProductDto[]) {
+  priceUpdate(
+    @LoggedUser() user: Users,
+    @Body() priceUpdateProductDto: PriceUpdateProductDto[],
+  ) {
     return this.productsService.priceUpdate(user.id, priceUpdateProductDto);
-  }  
+  }
 
   @Delete(':id')
   @ApiOperation({

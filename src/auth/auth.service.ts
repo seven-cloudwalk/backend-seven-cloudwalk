@@ -5,7 +5,6 @@ import { LoginResponseDto } from './dto/login-response.dto';
 import { LoginDto } from './dto/login.dto';
 import { JwtService } from '@nestjs/jwt';
 
-
 @Injectable()
 export class AuthService {
   constructor(
@@ -17,7 +16,9 @@ export class AuthService {
     const { email, password } = loginDto;
 
     // Procura e checa se o user existe, usando o email
-    const user =await this.prisma.users.findUnique({ where: { email: email } });
+    const user = await this.prisma.users.findUnique({
+      where: { email: email },
+    });
 
     if (!user) {
       throw new UnauthorizedException('Usuário e/ou senha inválidos');
@@ -37,5 +38,4 @@ export class AuthService {
       user,
     };
   }
-
 }
