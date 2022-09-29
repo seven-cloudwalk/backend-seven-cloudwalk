@@ -56,12 +56,12 @@ export class ProductService {
     let productsToDownload = [];
     let updates = [];
 
-    // localiza pelo ID desconto informado pelo usuário para o produto
+    // localiza desconto para o prodto armazenado em DTO
     function findDiscount(id: string) {
       return dto.find((prod) => prod.id === id);
     }
 
-    // le produtos e armazena
+    // le produtos da base e armazena em array
     let productsOrigin = await this.prisma.product.findMany({
       where: {
         id: {
@@ -80,9 +80,6 @@ export class ProductService {
       let discount = findDiscount(p.id).discount;
       let newPrice = p.price - (p.price * discount) / 100;
 
-      // armazena dados dos produtos
-      productsToDownload.push({ id: p.id, price: p.price, newPrice: newPrice });
-
       // armazena as operações
       updates.push(
         this.prisma.product.update({
@@ -90,9 +87,13 @@ export class ProductService {
           data: { price: newPrice },
         }),
       );
+
+      // armazena dados dos produtos para a resposta
+      productsToDownload.push({ id: p.id, price: p.price, newPrice: newPrice });
+
     });
 
-    // tenta efetuar as atualizações armazenadas
+    // tenta efetuar as operações armazenadas
     try {
       await this.prisma.$transaction(updates);
 
