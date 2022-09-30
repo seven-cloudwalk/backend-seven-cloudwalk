@@ -9,6 +9,7 @@ import {
   HttpCode,
   HttpStatus,
   UseGuards,
+  UnauthorizedException,
 } from '@nestjs/common';
 import { ProductService } from './products.service';
 import { CreateProductDto } from './dto/create-product.dto';
@@ -18,6 +19,7 @@ import { PriceUpdateProductDto } from './dto/priceupdate-product.dto';
 import { Users } from '@prisma/client';
 import { AuthGuard } from '@nestjs/passport';
 import { LoggedUser } from 'src/auth/logged-user.decorator';
+import { isAdmin } from 'src/utils/users.utils';
 
 @ApiTags('products')
 @UseGuards(AuthGuard())
@@ -30,7 +32,10 @@ export class ProductsController {
     summary: 'Criar um produto',
   })
   @Post()
-  create(@Body() createProductDto: CreateProductDto) {
+  create(@LoggedUser() user: Users, @Body() createProductDto: CreateProductDto) {
+    if( !user.roleAdmin ) {
+      throw new UnauthorizedException(`Usuário ${user.nickname} não esta cadastrado como administrador`)
+    }
     return this.productsService.create(createProductDto);
   }
 
@@ -54,7 +59,10 @@ export class ProductsController {
     summary: 'Atualizar um produto',
   })
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateProductDto: UpdateProductDto) {
+  update(@LoggedUser() user: Users, @Param('id') id: string, @Body() updateProductDto: UpdateProductDto) {
+    if( !user.roleAdmin ) {
+      throw new UnauthorizedException(`Usuário ${user.nickname} não esta cadastrado como administrador`)
+    }
     return this.productsService.update(id, updateProductDto);
   }
 
@@ -66,6 +74,9 @@ export class ProductsController {
     @LoggedUser() user: Users,
     @Body() priceUpdateProductDto: PriceUpdateProductDto[],
   ) {
+    if( !user.roleAdmin ) {
+      throw new UnauthorizedException(`Usuário ${user.nickname} não esta cadastrado como administrador`)
+    }
     return this.productsService.priceUpdate(user.id, priceUpdateProductDto);
   }
 
@@ -74,7 +85,12 @@ export class ProductsController {
     summary: 'Deletar um produto',
   })
   @HttpCode(HttpStatus.NO_CONTENT)
-  delete(@Param('id') id: string) {
+  delete(
+    @LoggedUser() user: Users,
+    @Param('id') id: string) {
+    if( !user.roleAdmin ) {
+      throw new UnauthorizedException(`Usuário ${user.nickname} não esta cadastrado como administrador`)
+    }
     return this.productsService.delete(id);
   }
 }
