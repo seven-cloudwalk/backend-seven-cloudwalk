@@ -11,13 +11,14 @@ import {
 import { FavoriteService } from './favorite.service';
 import { FavoriteProductDto } from './dto/favorite.dto';
 import { Favorite } from './entities/favorite.entity';
-import { ApiOperation } from '@nestjs/swagger';
+import { ApiOperation, ApiTags } from '@nestjs/swagger';
 
+@ApiTags('favorites')
 @Controller('favorites')
 export class FavoriteController {
   constructor(private readonly favoriteService: FavoriteService) {}
 
-  @Post('favorite')
+  @Post('create')
   @ApiOperation({
     summary: 'Favoritar um produto.',
   })
@@ -25,7 +26,7 @@ export class FavoriteController {
     return this.favoriteService.favoriteProduct(dto);
   }
 
-  @Delete(':id')
+  @Delete('delete/:id')
   @ApiOperation({
     summary: 'Desfavoritar um produto.',
   })
