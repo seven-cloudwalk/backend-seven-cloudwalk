@@ -6,7 +6,7 @@ export class Users {
   email: string;
   password: string;
   pj: boolean;
-  role: boolean;
+  roleAdmin: boolean;
   createdAt?: Date;
   updatedAt?: Date;
   //   favorites? : Favorite[]

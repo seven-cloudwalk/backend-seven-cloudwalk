@@ -30,7 +30,7 @@ export class AuthController {
     return this.authService.login(loginDto);
   }
 
-  @Get()
+  @Get('logged')
   @UseGuards(AuthGuard())
   @ApiBearerAuth()
   @ApiOperation({
