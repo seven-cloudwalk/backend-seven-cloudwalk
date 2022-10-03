@@ -40,7 +40,7 @@ export class UsersService {
       email: dto.email,
       password: dto.password,
       pj: dto.pj,
-      role: dto.role,
+      roleAdmin: dto.roleAdmin,
     };
 
     try {
