@@ -6,7 +6,6 @@ import {
   HttpCode,
   HttpStatus,
   UseGuards,
-  Param,
 } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiBearerAuth } from '@nestjs/swagger';
 import { Users } from '@prisma/client';
@@ -30,7 +29,7 @@ export class AuthController {
     return this.authService.login(loginDto);
   }
 
-  @Get()
+  @Get('logged')
   @UseGuards(AuthGuard())
   @ApiBearerAuth()
   @ApiOperation({
