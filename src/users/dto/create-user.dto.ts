@@ -35,5 +35,5 @@ export class CreateUserDto {
     description: 'Informa se este usuário é um administrador',
     example: 'false',
   })
-  role: boolean;
+  roleAdmin: boolean =false;
 }
