@@ -1,4 +1,8 @@
-import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
@@ -68,7 +72,6 @@ export class UsersService {
   }
 
   async delete(_id: string) {
-
     const record = await this.prisma.users.findUnique({
       where: { id: _id },
     });
@@ -78,14 +81,11 @@ export class UsersService {
     }
 
     try {
-
       return await this.prisma.users.delete({ 
         where: { id: _id },
       });
-  
     } catch (error) {
-
-      console.log( error );
+      console.log(error);
 
       throw new BadRequestException(
         `Não foi possível deletar o registro ID:${_id}`,

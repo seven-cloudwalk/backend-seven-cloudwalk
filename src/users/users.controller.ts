@@ -17,7 +17,7 @@ import { ApiTags, ApiOperation } from '@nestjs/swagger';
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
-  @Get()
+  @Get('all')
   @ApiOperation({
     summary: 'Listar todos usuários',
   })
@@ -25,7 +25,7 @@ export class UsersController {
     return this.usersService.findAll();
   }
 
-  @Get(':id')
+  @Get('find/:id')
   @ApiOperation({
     summary: 'Listar um usuário',
   })
@@ -33,7 +33,7 @@ export class UsersController {
     return this.usersService.findOne(id);
   }
 
-  @Post()
+  @Post('create')
   @ApiOperation({
     summary: 'Criar usuário',
   })
@@ -41,7 +41,7 @@ export class UsersController {
     return this.usersService.create(createUserDto);
   }
 
-  @Patch(':id')
+  @Patch('update/:id')
   @ApiOperation({
     summary: 'Alterar um usuário',
   })
@@ -49,7 +49,7 @@ export class UsersController {
     return this.usersService.update(id, updateUserDto);
   }
 
-  @Delete(':id')
+  @Delete('delete/:id')
   @ApiOperation({
     summary: 'Deletar um usuário',
   })
