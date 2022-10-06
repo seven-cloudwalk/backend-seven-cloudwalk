@@ -79,7 +79,7 @@ export class UsersService {
 
     try {
 
-      await this.prisma.users.delete({ 
+      return await this.prisma.users.delete({ 
         where: { id: _id },
       });
   
