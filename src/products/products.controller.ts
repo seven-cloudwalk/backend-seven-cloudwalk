@@ -19,6 +19,7 @@ import { PriceUpdateProductDto } from './dto/priceupdate-product.dto';
 import { Users } from '@prisma/client';
 import { AuthGuard } from '@nestjs/passport';
 import { LoggedUser } from 'src/auth/logged-user.decorator';
+import { isAdmin } from 'src/utils/users.utils';
 
 @ApiTags('products')
 @UseGuards(AuthGuard())
