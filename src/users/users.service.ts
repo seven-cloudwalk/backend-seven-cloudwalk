@@ -43,7 +43,7 @@ export class UsersService {
       nickname: hasSpace,
       email: dto.email,
       password: dto.password,
-      pj: dto.pj,
+      accountType: dto.accountType,
       roleAdmin: dto.roleAdmin,
     };
 
@@ -81,7 +81,7 @@ export class UsersService {
     }
 
     try {
-      return await this.prisma.users.delete({ 
+      return await this.prisma.users.delete({
         where: { id: _id },
       });
     } catch (error) {

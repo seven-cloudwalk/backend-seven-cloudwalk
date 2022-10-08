@@ -18,7 +18,7 @@ model Users {
   nickname  String  @db.VarChar(20)
   email     String  @unique @db.VarChar(100)
   password  String  @db.VarChar(129)
-  pj        Boolean @default(false)
+  accountType String
   roleAdmin Boolean @default(false) @map("role_admin")
 
   order    Orders[]

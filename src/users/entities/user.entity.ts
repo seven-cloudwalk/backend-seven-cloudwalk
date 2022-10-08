@@ -5,7 +5,7 @@ export class Users {
   nickname: string;
   email: string;
   password: string;
-  pj: boolean;
+  accountType: string;
   roleAdmin?: boolean;
   createdAt?: Date;
   updatedAt?: Date;
