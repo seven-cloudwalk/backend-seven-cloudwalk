@@ -38,5 +38,17 @@ export class CreateUserDto {
     description: 'Informa se este usuário é um administrador',
     example: 'false',
   })
-  roleAdmin: boolean;
+  roleAdmin: boolean =false;
+
+  @IsString()
+  @ApiProperty({
+    required: false 
+  })
+  verificationCode: string ='0000';
+  
+  @IsBoolean()
+  @ApiProperty({
+    required: false 
+  })
+  active: boolean = false;
 }
