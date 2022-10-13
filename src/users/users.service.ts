@@ -104,13 +104,16 @@ export class UsersService {
       where: { verificationCode: code },
     });
 
+    // codigo de verificação não localizado, retorna error
     if (!user) {
       throw new NotFoundException(`Código de confirmação inválido.`);
     }
     
     // code exists
-    // muda status de usuário para ativo
-    return this.update( user.id, { 'active': true } )
+    // muda status de usuário para ativo e retorna true
+    await this.update( user.id, { 'active': true } )
+
+    return true;
   }
 }
 
