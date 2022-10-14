@@ -5,8 +5,10 @@ export class Users {
   nickname: string;
   email: string;
   password: string;
-  pj: boolean;
+  accountType: string;
   roleAdmin?: boolean;
+  verificationCode?: string;
+  active?:boolean;
   createdAt?: Date;
   updatedAt?: Date;
   //   favorites? : Favorite[]

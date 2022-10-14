@@ -1,4 +1,4 @@
-import { ApiProperty } from '@nestjs/swagger';
+import { ApiHideProperty, ApiProperty } from '@nestjs/swagger';
 import { IsString, IsBoolean, IsNotEmpty } from 'class-validator';
 
 export class CreateUserDto {
@@ -29,9 +29,9 @@ export class CreateUserDto {
   @IsBoolean()
   @ApiProperty({
     description: 'informa se este usuário é uma pessoa jurídica',
-    example: 'true',
+    example: 'PF',
   })
-  pj: boolean =false;
+  accountType: string = 'PF' || 'PJ';
 
   @IsBoolean()
   @ApiProperty({
@@ -39,4 +39,15 @@ export class CreateUserDto {
     example: 'false',
   })
   roleAdmin: boolean =false;
+
+  @IsString()
+  @ApiHideProperty()
+  verificationCode: string ='0000';
+
+  @IsBoolean()
+  @ApiHideProperty()
+  active: boolean = false;
+  
 }
+
+
