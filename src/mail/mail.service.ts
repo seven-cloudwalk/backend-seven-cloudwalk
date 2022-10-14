@@ -12,8 +12,12 @@ export class MailService {
   constructor(private mailerService: MailerService) {}
 
   async sendUserConfirmation(user: Users, token: string) {
+
     //const url = `https://localhost:3500/users/verification/${token}`;
     const url = `https://seven-cloudwalk.herokuapp.com/users/verification/${token}`;
+
+
+    const url = `http://localhost:3500/users/verification/${token}`;
 
     try {
       await this.mailerService.sendMail({
@@ -29,11 +33,18 @@ export class MailService {
     } catch (error) {
       console.log(error);
 
+    async sendUserConfirmation(user: Users, token: string) {
+        
+        //const url = `https://localhost:3500/users/verification/${token}`;
+        const url = `https://seven-cloudwalk.herokuapp.com/users/verification/${token}`;
+
+
       throw new BadRequestException(
         `Error sending email for receipt ${user.email}`,
       );
     }
   }
+
 
   async sendRecoverPasswordEmail(email: string): Promise<void> {
     const url = `https://seven-cloudwalk.herokuapp.com/users/recovery/${email}`;

@@ -46,7 +46,13 @@ export class UsersService {
       accountType: dto.accountType,
       roleAdmin: dto.roleAdmin,
       verificationCode: dto.verificationCode,
+
       active: false,
+
+      active: dto.active,
+
+      active: false
+
     };
 
     try {
@@ -109,11 +115,17 @@ export class UsersService {
     }
 
     // code exists
+
+    // muda status de usuário para ativo
+    return this.update(user.id, { active: true });
+
     // muda status de usuário para ativo e retorna true
     await this.update(user.id, { active: true });
 
     return true;
+
   }
+
 
   async recovery(email: string) {
     // check in database if email exists
