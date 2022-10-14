@@ -73,5 +73,4 @@ export class UsersController {
   verification(@Param('code') code: string ) {
     return this.usersService.verification(code );
   }
-
 }

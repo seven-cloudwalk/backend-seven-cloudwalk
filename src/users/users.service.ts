@@ -12,6 +12,7 @@ import { handleErrorConstraintUnique } from './../utils/handle.error.utils';
 
 const saltRounds = 10;
 
+
 @Injectable()
 export class UsersService {
   constructor(private prisma: PrismaService) {}
@@ -46,13 +47,18 @@ export class UsersService {
       accountType: dto.accountType,
       roleAdmin: dto.roleAdmin,
       verificationCode: dto.verificationCode,
+<<<<<<< HEAD
       active: dto.active,
+=======
+      active: false
+>>>>>>> aa0d26b1c7a0c5862fe5540359372e16a5f6b235
     };
 
     try {
       // cria usuário no banco de dados
       return await this.prisma.users.create({ data: dto });
     } catch (error) {
+      console.log( error );
       return handleErrorConstraintUnique(error);
     }
   }
@@ -102,13 +108,21 @@ export class UsersService {
       where: { verificationCode: code },
     });
 
+    // codigo de verificação não localizado, retorna error
     if (!user) {
       throw new NotFoundException(`Código de confirmação inválido.`);
     }
 
     // code exists
+<<<<<<< HEAD
     // muda status de usuário para ativo
     return this.update(user.id, { active: true });
+=======
+    // muda status de usuário para ativo e retorna true
+    await this.update( user.id, { 'active': true } )
+
+    return true;
+>>>>>>> aa0d26b1c7a0c5862fe5540359372e16a5f6b235
   }
 }
 
