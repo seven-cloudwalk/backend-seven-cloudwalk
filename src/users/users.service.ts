@@ -12,6 +12,7 @@ import { handleErrorConstraintUnique } from './../utils/handle.error.utils';
 
 const saltRounds = 10;
 
+
 @Injectable()
 export class UsersService {
   constructor(private prisma: PrismaService) {}
@@ -46,7 +47,7 @@ export class UsersService {
       accountType: dto.accountType,
       roleAdmin: dto.roleAdmin,
       verificationCode: dto.verificationCode,
-      active: dto.active
+      active: false
     };
 
     try {
@@ -54,6 +55,7 @@ export class UsersService {
       return await this.prisma.users.create({ data: dto });
 
     } catch (error) {
+      console.log( error );
       return handleErrorConstraintUnique(error);
     }
   }

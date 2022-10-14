@@ -7,6 +7,8 @@ export class Users {
   password: string;
   accountType: string;
   roleAdmin?: boolean;
+  verificationCode?: string;
+  active?:boolean;
   createdAt?: Date;
   updatedAt?: Date;
   //   favorites? : Favorite[]
