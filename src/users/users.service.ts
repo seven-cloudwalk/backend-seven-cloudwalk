@@ -46,13 +46,12 @@ export class UsersService {
       accountType: dto.accountType,
       roleAdmin: dto.roleAdmin,
       verificationCode: dto.verificationCode,
-      active: dto.active
+      active: dto.active,
     };
 
     try {
-      // cria usuário no banco de dados 
+      // cria usuário no banco de dados
       return await this.prisma.users.create({ data: dto });
-
     } catch (error) {
       return handleErrorConstraintUnique(error);
     }
@@ -98,7 +97,6 @@ export class UsersService {
   }
 
   async verification(code: string) {
-
     // check in database if code exists
     const user = await this.prisma.users.findUnique({
       where: { verificationCode: code },
@@ -107,13 +105,12 @@ export class UsersService {
     if (!user) {
       throw new NotFoundException(`Código de confirmação inválido.`);
     }
-    
+
     // code exists
     // muda status de usuário para ativo
-    return this.update( user.id, { 'active': true } )
+    return this.update(user.id, { active: true });
   }
 }
-
 
 /*
 emailValidation: function(req, res, next) {
