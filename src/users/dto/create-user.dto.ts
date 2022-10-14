@@ -26,7 +26,7 @@ export class CreateUserDto {
   })
   password: string;
 
-  @IsBoolean()
+  @IsString()
   @ApiProperty({
     description: 'informa se este usuário é uma pessoa jurídica',
     example: 'PF',
@@ -47,7 +47,6 @@ export class CreateUserDto {
   @IsBoolean()
   @ApiHideProperty()
   active: boolean = false;
-  
 }
 
 

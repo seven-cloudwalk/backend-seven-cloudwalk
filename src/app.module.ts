@@ -8,9 +8,14 @@ import { ProductsModule } from './products/products.module';
 import { PassportModule } from '@nestjs/passport';
 import { JwtModule } from '@nestjs/jwt';
 import { FavoriteModule } from './favorite/favorite.module';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
-  imports: [AuthModule, UsersModule, OrdersModule, ProductsModule,
+  imports: [
+    ConfigModule.forRoot({
+      isGlobal: true, // no need to import into other modules
+    }),    
+    AuthModule, UsersModule, OrdersModule, ProductsModule,
     PassportModule.register({ defaultStrategy: 'jwt' }),
     JwtModule.register({
       secret: process.env.JWT_SECRET,

@@ -4,7 +4,7 @@ export const LoggedUser = createParamDecorator((_, ctx: ExecutionContext) => {
   const request = ctx.switchToHttp().getRequest();
   const user = request.user;
 
-  if( user ) {
+  if (user) {
     delete user.password;
   }
 

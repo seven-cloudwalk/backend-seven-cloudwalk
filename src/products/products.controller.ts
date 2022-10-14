@@ -32,9 +32,14 @@ export class ProductsController {
     summary: 'Criar um produto',
   })
   @Post()
-  create(@LoggedUser() user: Users, @Body() createProductDto: CreateProductDto) {
-    if( !user.roleAdmin ) {
-      throw new UnauthorizedException(`Usuário ${user.nickname} não esta cadastrado como administrador`)
+  create(
+    @LoggedUser() user: Users,
+    @Body() createProductDto: CreateProductDto,
+  ) {
+    if (!user.roleAdmin) {
+      throw new UnauthorizedException(
+        `Usuário ${user.nickname} não esta cadastrado como administrador`,
+      );
     }
     return this.productsService.create(createProductDto);
   }
@@ -42,7 +47,7 @@ export class ProductsController {
   @ApiOperation({
     summary: 'Mostrar todos os produtos',
   })
-  @Get()
+  @Get('all')
   findAll() {
     return this.productsService.findAll();
   }
@@ -50,7 +55,7 @@ export class ProductsController {
   @ApiOperation({
     summary: 'Mostrar um produto por ID',
   })
-  @Get(':id')
+  @Get('find/:id')
   findOne(@Param('id') id: string) {
     return this.productsService.findOne(id);
   }
@@ -58,38 +63,46 @@ export class ProductsController {
   @ApiOperation({
     summary: 'Atualizar um produto',
   })
-  @Patch(':id')
-  update(@LoggedUser() user: Users, @Param('id') id: string, @Body() updateProductDto: UpdateProductDto) {
-    if( !user.roleAdmin ) {
-      throw new UnauthorizedException(`Usuário ${user.nickname} não esta cadastrado como administrador`)
+  @Patch('updateProducts/:id')
+  update(
+    @LoggedUser() user: Users,
+    @Param('id') id: string,
+    @Body() updateProductDto: UpdateProductDto,
+  ) {
+    if (!user.roleAdmin) {
+      throw new UnauthorizedException(
+        `Usuário ${user.nickname} não esta cadastrado como administrador`,
+      );
     }
     return this.productsService.update(id, updateProductDto);
   }
 
   @ApiOperation({
-    summary: 'Atualiza preços dos produtos',
+    summary: 'Atualiza preços dos produtos (atualização em massa).',
   })
-  @Patch()
+  @Patch('updateAll/:id')
   priceUpdate(
     @LoggedUser() user: Users,
     @Body() priceUpdateProductDto: PriceUpdateProductDto[],
   ) {
-    if( !user.roleAdmin ) {
-      throw new UnauthorizedException(`Usuário ${user.nickname} não esta cadastrado como administrador`)
+    if (!user.roleAdmin) {
+      throw new UnauthorizedException(
+        `Usuário ${user.nickname} não esta cadastrado como administrador`,
+      );
     }
     return this.productsService.priceUpdate(user.id, priceUpdateProductDto);
   }
 
-  @Delete(':id')
+  @Delete('delete/:id')
   @ApiOperation({
     summary: 'Deletar um produto',
   })
   @HttpCode(HttpStatus.NO_CONTENT)
-  delete(
-    @LoggedUser() user: Users,
-    @Param('id') id: string) {
-    if( !user.roleAdmin ) {
-      throw new UnauthorizedException(`Usuário ${user.nickname} não esta cadastrado como administrador`)
+  delete(@LoggedUser() user: Users, @Param('id') id: string) {
+    if (!user.roleAdmin) {
+      throw new UnauthorizedException(
+        `Usuário ${user.nickname} não esta cadastrado como administrador`,
+      );
     }
     return this.productsService.delete(id);
   }
