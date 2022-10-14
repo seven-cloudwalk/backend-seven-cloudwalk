@@ -12,7 +12,6 @@ import { handleErrorConstraintUnique } from './../utils/handle.error.utils';
 
 const saltRounds = 10;
 
-
 @Injectable()
 export class UsersService {
   constructor(private prisma: PrismaService) {}
@@ -47,15 +46,14 @@ export class UsersService {
       accountType: dto.accountType,
       roleAdmin: dto.roleAdmin,
       verificationCode: dto.verificationCode,
-      active: false
+      active: false,
     };
 
     try {
-      // cria usuário no banco de dados 
+      // cria usuário no banco de dados
       return await this.prisma.users.create({ data: dto });
-
     } catch (error) {
-      console.log( error );
+      console.log(error);
       return handleErrorConstraintUnique(error);
     }
   }
@@ -100,7 +98,6 @@ export class UsersService {
   }
 
   async verification(code: string) {
-
     // check in database if code exists
     const user = await this.prisma.users.findUnique({
       where: { verificationCode: code },
@@ -110,15 +107,32 @@ export class UsersService {
     if (!user) {
       throw new NotFoundException(`Código de confirmação inválido.`);
     }
-    
+
     // code exists
     // muda status de usuário para ativo e retorna true
-    await this.update( user.id, { 'active': true } )
+    await this.update(user.id, { active: true });
+
+    return true;
+  }
+
+  async recovery(email: string) {
+    // check in database if email exists
+    const user = await this.prisma.users.findUnique({
+      where: { email },
+    });
+
+    // email não localizado, retorna error
+    if (!user) {
+      throw new NotFoundException(`E-mail inválido!`);
+    }
+
+    // code exists
+    // muda status de usuário para ativo e retorna true
+    await this.update(user.id, { active: true });
 
     return true;
   }
 }
-
 
 /*
 emailValidation: function(req, res, next) {
