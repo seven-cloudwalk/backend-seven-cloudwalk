@@ -49,10 +49,7 @@ export class UsersService {
 
       active: false,
 
-      active: dto.active,
-
-      active: false
-
+      // active: dto.active,
     };
 
     try {
@@ -123,9 +120,7 @@ export class UsersService {
     await this.update(user.id, { active: true });
 
     return true;
-
   }
-
 
   async recovery(email: string) {
     // check in database if email exists
