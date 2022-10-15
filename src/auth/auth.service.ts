@@ -10,13 +10,15 @@ import { LoginDto } from './dto/login.dto';
 import { JwtService } from '@nestjs/jwt';
 import { MailerService } from '@nestjs-modules/mailer';
 import { randomBytes } from 'crypto';
+import { Users } from '@prisma/client';
 
 @Injectable()
 export class AuthService {
   constructor(
     private readonly prisma: PrismaService,
     private readonly jwtService: JwtService,
-    private mailerService: MailerService,
+    private readonly mailerService: MailerService,
+    private readonly users: Users,
   ) {}
 
   async login(loginDto: LoginDto): Promise<LoginResponseDto> {
