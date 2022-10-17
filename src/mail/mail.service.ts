@@ -1,21 +1,14 @@
-import {
-  BadRequestException,
-  Injectable,
-  NotFoundException,
-} from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { MailerService } from '@nestjs-modules/mailer';
 import { Users } from 'src/users/entities/user.entity';
-import { randomBytes } from 'crypto';
 
 @Injectable()
 export class MailService {
   constructor(private mailerService: MailerService) {}
 
   async sendUserConfirmation(user: Users, token: string) {
-
     //const url = `https://localhost:3500/users/verification/${token}`;
     //const url = `https://seven-cloudwalk.herokuapp.com/users/verification/${token}`;
-
 
     const url = `http://localhost:3500/users/verification/${token}`;
 
@@ -38,30 +31,4 @@ export class MailService {
       );
     }
   }
-
-
-  async sendRecoverPasswordEmail(email: string): Promise<void> {
-    const url = `https://seven-cloudwalk.herokuapp.com/users/recovery/${email}`;
-
-    const user = await this.mailerService.sendMail({});
-
-    if (!user)
-      throw new NotFoundException('Não há usuário cadastrado com esse email.');
-
-    user.recoverToken = randomBytes(32).toString('hex');
-    await user.save();
-
-    const mail = {
-      to: user.email,
-      subject: 'Recuperação de senha',
-      template: './recovery-password',
-      context: {
-        token: user.recoverToken,
-        url,
-      },
-    };
-    await this.mailerService.sendMail(mail);
-  }
 }
-
-
