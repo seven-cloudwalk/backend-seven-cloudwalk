@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNotEmpty, IsNumber, IsString, IsUrl } from 'class-validator';
+import { IsBoolean, IsNotEmpty, IsNumber, IsString, IsUrl } from 'class-validator';
 
 export class CreateProductDto {
   @IsString()
@@ -40,9 +40,11 @@ export class CreateProductDto {
   @IsNotEmpty()
   @ApiProperty({
     example: 'https://i.imgur.com/zIBmPpd.jpg',
-    description: 'Link of image of pizza',
+    description: 'Link of image',
   })
   image: string;
 
-  stock: boolean;
+  
+  @IsBoolean()
+  stock: boolean =true;
 }

@@ -30,6 +30,7 @@ export class CreateUserDto {
   @ApiProperty({
     description: 'informa se este usuário é uma pessoa jurídica',
     example: 'PF',
+    default: 'PF',
   })
   accountType: string = 'PF' || 'PJ';
 
@@ -37,6 +38,7 @@ export class CreateUserDto {
   @ApiProperty({
     description: 'Informa se este usuário é um administrador',
     example: 'false',
+    default: false,
   })
   roleAdmin: boolean =false;
 

@@ -3,23 +3,25 @@ import {
   Get,
   Post,
   Body,
-  Patch,
   Param,
   Delete,
   HttpCode,
   HttpStatus,
   UseGuards,
   UnauthorizedException,
+  Patch,
 } from '@nestjs/common';
 import { ProductService } from './products.service';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
-import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiBody, ApiOperation, ApiProperty, ApiTags } from '@nestjs/swagger';
 import { PriceUpdateProductDto } from './dto/priceupdate-product.dto';
 import { Users } from '@prisma/client';
 import { AuthGuard } from '@nestjs/passport';
 import { LoggedUser } from 'src/auth/logged-user.decorator';
 import { isAdmin } from 'src/utils/users.utils';
+import { type } from 'os';
+import { isArray } from 'class-validator';
 
 @ApiTags('products')
 @UseGuards(AuthGuard())
@@ -81,6 +83,7 @@ export class ProductsController {
     summary: 'Atualiza preços dos produtos (atualização em massa).',
   })
   @Patch('updateAll/:id')
+  @ApiBody({ type: [PriceUpdateProductDto] })
   priceUpdate(
     @LoggedUser() user: Users,
     @Body() priceUpdateProductDto: PriceUpdateProductDto[],
