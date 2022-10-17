@@ -7,15 +7,14 @@ export class MailService {
   constructor(private mailerService: MailerService) {}
 
   async sendUserConfirmation(user: Users, token: string) {
-    //const url = `https://localhost:3500/users/verification/${token}`;
-    //const url = `https://seven-cloudwalk.herokuapp.com/users/verification/${token}`;
 
-    const url = `http://localhost:3500/users/verification/${token}`;
+    const url = `https://seven-cloudwalk.herokuapp.com/users/verification/${token}`;
+    //const url = `http://localhost:3500/users/verification/${token}`;
 
     try {
       await this.mailerService.sendMail({
         to: user.email,
-        subject: 'Teste App - Confirm your Email',
+        subject: 'Confirm your Email',
         template: './confirmation',
         context: {
           name: user.nickname,
