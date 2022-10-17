@@ -38,14 +38,4 @@ export class AuthController {
   profile(@LoggedUser() user: Users) {
     return user;
   }
-
-  @Post('/send-recover-email')
-  async sendRecoverPasswordEmail(
-    @Body('email') email: string,
-  ): Promise<{ message: string }> {
-    await this.authService.sendRecoverPasswordEmail(email);
-    return {
-      message: 'Foi enviado um e-mail com instruções para resetar.',
-    };
-  }
 }
