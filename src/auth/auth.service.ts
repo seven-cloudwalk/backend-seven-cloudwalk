@@ -4,14 +4,12 @@ import { PrismaService } from 'src/prisma/prisma.service';
 import { LoginResponseDto } from './dto/login-response.dto';
 import { LoginDto } from './dto/login.dto';
 import { JwtService } from '@nestjs/jwt';
-import { Users } from 'src/users/entities/user.entity';
 
 @Injectable()
 export class AuthService {
   constructor(
     private readonly prisma: PrismaService,
     private readonly jwtService: JwtService,
-    private readonly users: Users,
   ) {}
 
   async login(loginDto: LoginDto): Promise<LoginResponseDto> {

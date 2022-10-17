@@ -46,13 +46,7 @@ export class UsersService {
       accountType: dto.accountType,
       roleAdmin: dto.roleAdmin,
       verificationCode: dto.verificationCode,
-
       active: false,
-
-      active: dto.active,
-
-      active: false
-
     };
 
     try {
