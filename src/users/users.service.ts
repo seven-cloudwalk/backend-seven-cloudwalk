@@ -109,10 +109,9 @@ export class UsersService {
       throw new NotFoundException(`Código de confirmação inválido.`);
     }
 
-    // code exists
-
+    // if code exists
     // muda status de usuário para ativo
-    return this.update(user.id, { active: true });
+    return await this.update(user.id, { active: true });
 
     // muda status de usuário para ativo e retorna true
     await this.update(user.id, { active: true });

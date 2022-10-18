@@ -9,8 +9,16 @@ export class MailService {
 
     async sendUserConfirmation(user: Users, token: string) {
         
-        const url = `https://seven-cloudwalk.herokuapp.com/users/verification/${token}`;
+        let _url = `https://seven-cloudwalk.herokuapp.com/users/verification/${token}`;
+        if (process.env.NODE_ENV==='development') {
+            _url = `http://localhost:3500/users/verification/${token}`;
+        }
 
+        /*
+        console.log( 'NODE_ENV:', process.env.NODE_ENV );
+        console.log( 'url:', _url );
+        */
+        
         try { 
             await this.mailerService.sendMail({
                 to: user.email,
@@ -18,7 +26,7 @@ export class MailService {
                 template: './confirmation', 
                 context: { 
                     name: user.nickname,
-                    url,
+                    url: _url,
                 },
             });
             return `Email sent for receipt ${user.email}`
