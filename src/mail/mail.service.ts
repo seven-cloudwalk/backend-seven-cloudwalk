@@ -9,7 +9,7 @@ export class MailService {
 
     async sendUserConfirmation(user: Users, token: string) {
         
-        const url = `example.com/auth/confirm?token=${token}`;
+        const url = `https://seven-cloudwalk.herokuapp.com/users/verification/${token}`;
 
         try { 
             await this.mailerService.sendMail({
