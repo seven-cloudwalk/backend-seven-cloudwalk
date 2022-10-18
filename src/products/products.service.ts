@@ -90,7 +90,6 @@ export class ProductService {
 
       // armazena dados dos produtos para a resposta
       productsToDownload.push({ id: p.id, price: p.price, newPrice: newPrice });
-
     });
 
     // tenta efetuar as operações armazenadas
