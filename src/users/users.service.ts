@@ -14,6 +14,7 @@ const saltRounds = 10;
 
 @Injectable()
 export class UsersService {
+  mailerService: any;
   constructor(private prisma: PrismaService) {}
 
   findAll() {
@@ -117,9 +118,7 @@ export class UsersService {
     await this.update(user.id, { active: true });
 
     return true;
-
   }
-
 
   async recovery(email: string) {
     // check in database if email exists
@@ -137,5 +136,26 @@ export class UsersService {
     await this.update(user.id, { active: true });
 
     return true;
+  }
+
+  async sendRecoverPasswordEmail(email: string): Promise<string> {
+    // const url = `https://seven-cloudwalk.herokuapp.com/users/send-recover-email/${email}`;
+    const url = `http://localhost:3500/users/send-recover-email/${email}`;
+
+    try {
+      await this.mailerService.sendMail({
+        to: email,
+        subject: 'Recuperação de senha',
+        template: './recovery-password.hbs',
+        context: {
+          url,
+        },
+      });
+      return `E-mail de recuperação de senha ${email}`;
+    } catch (error) {
+      console.log(error);
+
+      throw new BadRequestException(`Erro no envio de e-mail para ${email}`);
+    }
   }
 }
