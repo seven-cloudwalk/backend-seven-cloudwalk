@@ -85,11 +85,11 @@ export class UsersController {
     return this.usersService.recovery(email);
   }
 
-  @Post('/send-recover-email/:email')
+  @Post('/send-recover-email')
   async sendRecoverPasswordEmail(
     @Body('email') email: string,
   ): Promise<{ message: string }> {
-    await this.usersService.sendRecoverPasswordEmail(email);
+    await this.usersService.forgotPassword(email);
     return {
       message: 'Foi enviado um email com instruções para resetar sua senha',
     };

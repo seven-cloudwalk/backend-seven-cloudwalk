@@ -137,9 +137,9 @@ export class UsersService {
     return true;
   }
 
-  async sendRecoverPasswordEmail(email: string): Promise<string> {
+  async forgotPassword(email: string) {
     // const url = `https://seven-cloudwalk.herokuapp.com/users/send-recover-email/${email}`;
-    const url = `http://localhost:3500/users/send-recover-email/${email}`;
+    const url = `http://localhost:3500/users/send-recover-email`;
 
     try {
       await this.mailerService.sendMail({
