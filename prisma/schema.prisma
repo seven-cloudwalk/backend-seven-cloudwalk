@@ -61,7 +61,7 @@ model OrderDetails {
 model Product {
   id          String  @id @unique @default(uuid())
   name        String  @unique @db.VarChar(50)
-  cod         Int     @default(autoincrement())
+  cod         Int     @default(autoincrement()) 
   description String  @db.VarChar(100)
   price       Float
   image       String  @db.VarChar(200)
