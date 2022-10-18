@@ -8,8 +8,6 @@ import { ProductsModule } from './products/products.module';
 import { PassportModule } from '@nestjs/passport';
 import { JwtModule } from '@nestjs/jwt';
 import { ConfigModule } from '@nestjs/config';
-import { mailerConfig } from './config/mailer.config';
-import { MailerModule } from '@nestjs-modules/mailer';
 
 @Module({
   imports: [
@@ -17,7 +15,6 @@ import { MailerModule } from '@nestjs-modules/mailer';
       isGlobal: true, // no need to import into other modules
     }),
     AuthModule,
-    MailerModule.forRoot(mailerConfig),
     UsersModule,
     OrdersModule,
     ProductsModule,

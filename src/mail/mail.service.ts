@@ -4,30 +4,30 @@ import { Users } from 'src/users/entities/user.entity';
 
 @Injectable()
 export class MailService {
-  constructor(private mailerService: MailerService) {}
 
-  async sendUserConfirmation(user: Users, token: string) {
+    constructor(private mailerService: MailerService) {}
 
-    const url = `https://seven-cloudwalk.herokuapp.com/users/verification/${token}`;
-    //const url = `http://localhost:3500/users/verification/${token}`;
+    async sendUserConfirmation(user: Users, token: string) {
+        
+        const url = `example.com/auth/confirm?token=${token}`;
 
-    try {
-      await this.mailerService.sendMail({
-        to: user.email,
-        subject: 'Confirm your Email',
-        template: './confirmation',
-        context: {
-          name: user.nickname,
-          url,
-        },
-      });
-      return `Email sent for receipt ${user.email}`;
-    } catch (error) {
-      console.log(error);
+        try { 
+            await this.mailerService.sendMail({
+                to: user.email,
+                subject: 'Teste App - Confirm your Email',
+                template: './confirmation', 
+                context: { 
+                    name: user.nickname,
+                    url,
+                },
+            });
+            return `Email sent for receipt ${user.email}`
+        } 
+        catch( error ) {
+            console.log( error );
 
-      throw new BadRequestException(
-        `Error sending email for receipt ${user.email}`,
-      );
+            throw new BadRequestException(`Error sending email for receipt ${user.email}`);
+        }
     }
-  }
 }
+
