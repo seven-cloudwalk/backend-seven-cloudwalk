@@ -8,7 +8,7 @@ export class Users {
   accountType: string;
   roleAdmin?: boolean;
   verificationCode?: string;
-  active?:boolean;
+  active?: boolean;
   createdAt?: Date;
   updatedAt?: Date;
   //   favorites? : Favorite[]
