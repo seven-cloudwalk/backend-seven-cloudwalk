@@ -25,6 +25,13 @@ export class CreateProductDto {
   cod: number;
 
   @IsString()
+  @ApiProperty({
+    example: 1,
+    description: 'Categoria do produto.',
+  })
+  category: string = '1';
+
+  @IsString()
   @IsNotEmpty()
   @ApiProperty({
     example: 'Semente de girassol',
