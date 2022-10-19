@@ -151,8 +151,8 @@ export class UsersService {
         to: email,
         subject: 'Recuperação de senha',
         text: 'Recuperação de senha',
-        html: '<b>https://seven-cloudwalk.herokuapp.com/users/send-recover-email</b>',
-        template: './recovery-password',
+        html: `'<b>https://seven-cloudwalk.herokuapp.com/users/send-recover-email</b>'`,
+        template: '../mail/templates/recovery-password',
         context: {
           url,
         },
