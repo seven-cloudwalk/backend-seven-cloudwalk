@@ -9,13 +9,17 @@ import { PrismaService } from 'src/prisma/prisma.service';
 import * as bcrypt from 'bcrypt';
 import { Users } from '@prisma/client';
 import { handleErrorConstraintUnique } from './../utils/handle.error.utils';
+import { MailerService } from '@nestjs-modules/mailer';
 
 const saltRounds = 10;
 
 @Injectable()
 export class UsersService {
-  mailerService: any;
-  constructor(private prisma: PrismaService) {}
+  // mailerService: any;
+  constructor(
+    private prisma: PrismaService,
+    private readonly mailerService: MailerService,
+  ) {}
 
   findAll() {
     return this.prisma.users.findMany({
@@ -138,14 +142,16 @@ export class UsersService {
   }
 
   async forgotPassword(email: string) {
-    // const url = `https://seven-cloudwalk.herokuapp.com/users/send-recover-email/${email}`;
-    const url = `http://localhost:3500/users/send-recover-email`;
+    const url = `https://seven-cloudwalk.herokuapp.com/users/send-recover-email`;
+    // const url = `http://localhost:3500/users/send-recover-email`;
 
     try {
       await this.mailerService.sendMail({
+        from: 'digitalentrepreneur042018@smtp.gmail.com',
         to: email,
         subject: 'Recuperação de senha',
-        template: './recovery-password.hbs',
+        text: 'Recuperação de senha',
+        template: './recovery-password',
         context: {
           url,
         },
