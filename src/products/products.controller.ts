@@ -14,17 +14,13 @@ import {
 import { ProductService } from './products.service';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
-import { ApiBearerAuth, ApiBody, ApiOperation, ApiProperty, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiBody, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { PriceUpdateProductDto } from './dto/priceupdate-product.dto';
 import { Users } from '@prisma/client';
 import { AuthGuard } from '@nestjs/passport';
 import { LoggedUser } from 'src/auth/logged-user.decorator';
-import { isAdmin } from 'src/utils/users.utils';
-import { type } from 'os';
-import { isArray } from 'class-validator';
 
 @ApiTags('products')
-@UseGuards(AuthGuard())
 @ApiBearerAuth()
 @Controller('products')
 export class ProductsController {
@@ -34,6 +30,7 @@ export class ProductsController {
     summary: 'Criar um produto',
   })
   @Post()
+  @UseGuards(AuthGuard())
   create(
     @LoggedUser() user: Users,
     @Body() createProductDto: CreateProductDto,
@@ -65,6 +62,7 @@ export class ProductsController {
   @ApiOperation({
     summary: 'Atualizar um produto',
   })
+  @UseGuards(AuthGuard())
   @Patch('updateProducts/:id')
   update(
     @LoggedUser() user: Users,
@@ -83,6 +81,7 @@ export class ProductsController {
     summary: 'Atualiza preços dos produtos (atualização em massa).',
   })
   @Patch('updateAll/:id')
+  @UseGuards(AuthGuard())
   @ApiBody({ type: [PriceUpdateProductDto] })
   priceUpdate(
     @LoggedUser() user: Users,
@@ -96,6 +95,7 @@ export class ProductsController {
     return this.productsService.priceUpdate(user.id, priceUpdateProductDto);
   }
 
+  @UseGuards(AuthGuard())
   @Delete('delete/:id')
   @ApiOperation({
     summary: 'Deletar um produto',
