@@ -15,14 +15,14 @@ export class CreateProductDto {
     description: 'Nome da semente a ser comercializada.',
   })
   name: string;
-
+/*
   @IsNumber()
-  @IsNotEmpty()
   @ApiProperty({
     example: 1,
     description: 'Número do código do produto, não é ID.',
   })
   cod: number;
+*/
 
   @IsString()
   @ApiProperty({
@@ -58,5 +58,10 @@ export class CreateProductDto {
   image: string;
 
   @IsBoolean()
+  @ApiProperty({
+    description: 'Informa se este produto existe no estoque',
+    example: 'true',
+    default: true,
+  })  
   stock: boolean = true;
 }
