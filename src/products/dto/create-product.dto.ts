@@ -1,5 +1,11 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNotEmpty, IsNumber, IsString, IsUrl } from 'class-validator';
+import {
+  IsBoolean,
+  IsNotEmpty,
+  IsNumber,
+  IsString,
+  IsUrl,
+} from 'class-validator';
 
 export class CreateProductDto {
   @IsString()
@@ -9,14 +15,21 @@ export class CreateProductDto {
     description: 'Nome da semente a ser comercializada.',
   })
   name: string;
-
+/*
   @IsNumber()
-  @IsNotEmpty()
   @ApiProperty({
     example: 1,
     description: 'Número do código do produto, não é ID.',
   })
   cod: number;
+*/
+
+  @IsString()
+  @ApiProperty({
+    example: 1,
+    description: 'Categoria do produto.',
+  })
+  category: string = '1';
 
   @IsString()
   @IsNotEmpty()
@@ -40,9 +53,15 @@ export class CreateProductDto {
   @IsNotEmpty()
   @ApiProperty({
     example: 'https://i.imgur.com/zIBmPpd.jpg',
-    description: 'Link of image of pizza',
+    description: 'Link of image',
   })
   image: string;
 
-  stock: boolean;
+  @IsBoolean()
+  @ApiProperty({
+    description: 'Informa se este produto existe no estoque',
+    example: 'true',
+    default: true,
+  })  
+  stock: boolean = true;
 }
