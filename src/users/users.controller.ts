@@ -85,7 +85,7 @@ export class UsersController {
     return this.usersService.recovery(email);
   }
 
-  @Post('/send-recover-email')
+  @Post('send-recover-email')
   async sendRecoverPasswordEmail(
     @Body('email') email: string,
   ): Promise<{ message: string }> {
