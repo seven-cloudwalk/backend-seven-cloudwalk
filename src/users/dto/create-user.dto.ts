@@ -1,5 +1,12 @@
 import { ApiHideProperty, ApiProperty } from '@nestjs/swagger';
-import { IsString, IsBoolean, IsNotEmpty, IsEmail } from 'class-validator';
+import {
+  IsString,
+  IsBoolean,
+  IsNotEmpty,
+  IsEmail,
+  Matches,
+  MinLength,
+} from 'class-validator';
 
 export class CreateUserDto {
   @IsNotEmpty()
@@ -21,8 +28,13 @@ export class CreateUserDto {
 
   @IsString()
   @IsNotEmpty()
+  @MinLength(8)
+  @Matches(/((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/, {
+    message: 'Senha fraca',
+  })
   @ApiProperty({
-    description: 'Senha do usuário',
+    description:
+      'A Senha do usuário deve conter: no mínimo uma letra maiúscula, uma minúscula, um símbolo e um número e no mínimo 8 dígitos. ',
     example: 'teste',
   })
   password: string;

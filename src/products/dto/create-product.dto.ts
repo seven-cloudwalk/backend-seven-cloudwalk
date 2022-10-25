@@ -45,7 +45,7 @@ export class CreateProductDto {
   @IsUrl()
   @IsNotEmpty()
   @ApiProperty({
-    example: 'https://i.imgur.com/zIBmPpd.jpg',
+    example: 'https://i.imgur.com/zIBmPpd.png',
     description: 'Link of image',
   })
   image: string;
