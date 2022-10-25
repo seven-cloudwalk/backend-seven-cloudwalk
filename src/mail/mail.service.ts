@@ -12,22 +12,19 @@ export class MailService {
       _url = `http://localhost:3500/users/verification/${token}`;
     }
 
-    /*
-        console.log( 'NODE_ENV:', process.env.NODE_ENV );
-        console.log( 'url:', _url );
-        */
-
     try {
       await this.mailerService.sendMail({
         to: user.email,
-        subject: 'Teste App - Confirm your Email',
+        subject: 'Confirmação de Email',
         template: './confirmation',
         context: {
           name: user.nickname,
           url: _url,
         },
       });
-      return `Email sent for receipt ${user.email}`;
+
+      return { "statusCode": 200, "message": `Email sent for receipt ${user.email}` };
+
     } catch (error) {
       console.log(error);
 
