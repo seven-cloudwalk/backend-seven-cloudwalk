@@ -2,9 +2,10 @@ import { ConsoleLogger, Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { handleErrorConstraintUnique } from 'src/utils/handle.error.utils';
 import { CreateProductDto } from './dto/create-product.dto';
-import { PriceUpdateProductDto } from './dto/priceupdate-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
 import { Product } from './entities/product.entity';
+import { LoadExcelData } from 'src/utils/products-excel.utils';
+import { PriceUpdateProductDto } from './dto/priceupdate-product.dto';
 
 @Injectable()
 export class ProductService {
@@ -50,22 +51,33 @@ export class ProductService {
       .catch(handleErrorConstraintUnique);
   }
 
-  async priceUpdate(userId: string, dto: PriceUpdateProductDto[]) {
+  async priceUpdate(userId: string) {
     let Id = userId;
     let date = new Date();
-    let productsToDownload = [];
+    let response = [];
     let updates = [];
 
-    // localiza desconto para o prodto armazenado em DTO
+    // localiza desconto para o produto
     function findDiscount(id: string) {
-      return dto.find((prod) => prod.id === id);
+      return excelProducts.find((prod) => prod['A'] == id);
     }
 
-    // le produtos da base e armazena em array
+    // localiza desconto para o prodto armazenado em DTO
+    function hasProduct(row :PriceUpdateProductDto) {
+      return (row['A'] && row['B']) && (+row['__EMPTY'] > 1);
+    }
+
+    // carrega arquivo excel de produtos e descontos
+    let buffer = ( await LoadExcelData() ) as PriceUpdateProductDto[];
+    let excelProducts = buffer.filter( hasProduct );
+   
+    //console.log( 'excelProducts:', excelProducts);
+
+    // le produtos da base de dados e armazena em array
     let productsOrigin = await this.prisma.product.findMany({
       where: {
         id: {
-          in: dto.map((prod) => prod.id),
+          in: excelProducts.map((prod) => prod['A']),
         },
       },
       select: {
@@ -77,7 +89,7 @@ export class ProductService {
     // armazena as operações de alteração de preco em um array
     productsOrigin.map((p) => {
       // calcula desconto
-      let discount = findDiscount(p.id).discount;
+      let discount = findDiscount(p.id)['B'];
       let newPrice = p.price - (p.price * discount) / 100;
 
       // armazena as operações
@@ -89,14 +101,14 @@ export class ProductService {
       );
 
       // armazena dados dos produtos para a resposta
-      productsToDownload.push({ id: p.id, price: p.price, newPrice: newPrice });
+      response.push({ id: p.id, price: p.price, newPrice: newPrice });
     });
 
     // tenta efetuar as operações armazenadas
     try {
       await this.prisma.$transaction(updates);
 
-      return { user: Id, date: date, products: productsToDownload };
+      return { user: Id, date: date, products: response };
     } catch (error) {
       console.log('error:', error);
 
