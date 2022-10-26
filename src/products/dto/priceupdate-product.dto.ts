@@ -8,7 +8,7 @@ export class PriceUpdateProductDto {
     example: 'xxxxxxx-xxxxxxx-0',
     description: 'ID do produto',
   })
-  id: string;
+  A: string;      // ID do produto
 
   @IsNumber()
   @IsNotEmpty()
@@ -16,5 +16,5 @@ export class PriceUpdateProductDto {
     example: 5,
     description: 'Percentual de desconto a ser aplicado ao produto',
   })
-  discount: number;
+  B: number;    // percentual de desconto
 }
