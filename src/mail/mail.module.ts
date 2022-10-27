@@ -23,7 +23,7 @@ import { ConfigService } from '@nestjs/config';
           },
         },
         defaults: {
-          from: config.get<string>('MAIL_FROM'),
+          from: `${config.get<string>('MAIL_FROM')}  <${config.get<string>('MAIL_USER')}@gmail.com>`,
         },
         template: {
           dir: join(__dirname, 'templates'),
