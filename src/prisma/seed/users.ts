@@ -3,20 +3,12 @@ import * as bcrypt from 'bcrypt';
 
 export const users: Prisma.UsersCreateInput[] = [
   {
-    nickname: 'Jaymeson',
-    email: 'jaymesonmendes@gmail.com',
+    nickname: 'nome tres',
+    email: 'nome3@gmail.com',
     password: 'Abc1234*',
     accountType: 'PF',
     roleAdmin: true,
-    verificationCode: '1',
-  },
-  {
-    nickname: 'Keven Ferreira',
-    email: 'keven.ferreira@hotmail.com',
-    password: 'Abc1234*',
-    accountType: 'PF',
-    roleAdmin: true,
-    verificationCode: '2',
+    verificationCode: '3',
   },
 ];
 
