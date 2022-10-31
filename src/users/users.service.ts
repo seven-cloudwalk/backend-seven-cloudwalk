@@ -2,7 +2,6 @@ import {
   BadRequestException,
   Injectable,
   NotFoundException,
-  UnprocessableEntityException,
 } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
@@ -44,17 +43,6 @@ export class UsersService {
 
   async create(dto: CreateUserDto) {
     dto.password = bcrypt.hashSync(dto.password, saltRounds);
-    const hasSpace = dto.nickname.replace(/ /g, '').toLowerCase();
-
-    const data: CreateUserDto = {
-      nickname: hasSpace,
-      email: dto.email,
-      password: dto.password,
-      accountType: dto.accountType,
-      roleAdmin: dto.roleAdmin,
-      verificationCode: dto.verificationCode,
-      active: false,
-    };
 
     try {
       // cria usuário no banco de dados
@@ -144,6 +132,14 @@ export class UsersService {
     const url = `https://seven-cloudwalk.herokuapp.com/users/send-recover-email`;
     // const url = `http://localhost:3500/users/send-recover-email`;
 
+    const user = await this.prisma.users.findUnique({
+      where: { email: email },
+    });
+
+    if (!user) {
+      throw new NotFoundException('Não há usuário cadastrado com esse email.');
+    }
+
     try {
       await this.mailerService.sendMail({
         from: 'digitalentrepreneur042018@smtp.gmail.com',
@@ -161,17 +157,5 @@ export class UsersService {
 
       throw new BadRequestException(`Erro no envio de e-mail para ${email}`);
     }
-  }
-
-  async changePassword(
-    id: string,
-    changePasswordDto: ChangePasswordDto,
-  ): Promise<void> {
-    const { password, passwordConfirmation } = changePasswordDto;
-
-    if (password != passwordConfirmation)
-      throw new UnprocessableEntityException('As senhas não conferem');
-
-    await this.mailerService.changePassword(id, password);
   }
 }
