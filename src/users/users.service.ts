@@ -2,6 +2,7 @@ import {
   BadRequestException,
   Injectable,
   NotFoundException,
+  UnprocessableEntityException,
 } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
@@ -10,6 +11,7 @@ import * as bcrypt from 'bcrypt';
 import { Users } from '@prisma/client';
 import { handleErrorConstraintUnique } from './../utils/handle.error.utils';
 import { MailerService } from '@nestjs-modules/mailer';
+import { ChangePasswordDto } from './dto/change-password.dto';
 
 const saltRounds = 10;
 
@@ -114,10 +116,10 @@ export class UsersService {
     }
 
     // if code exists muda status de usuário para ativo
-    return await this.prisma.users.update( 
-      { where: { id: user.id }, 
-        data: { active: true },
-      });
+    return await this.prisma.users.update({
+      where: { id: user.id },
+      data: { active: true },
+    });
   }
 
   async recovery(email: string) {
@@ -159,5 +161,17 @@ export class UsersService {
 
       throw new BadRequestException(`Erro no envio de e-mail para ${email}`);
     }
+  }
+
+  async changePassword(
+    id: string,
+    changePasswordDto: ChangePasswordDto,
+  ): Promise<void> {
+    const { password, passwordConfirmation } = changePasswordDto;
+
+    if (password != passwordConfirmation)
+      throw new UnprocessableEntityException('As senhas não conferem');
+
+    await this.mailerService.changePassword(id, password);
   }
 }
