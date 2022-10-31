@@ -82,15 +82,17 @@ export class ProductsController {
   })
   @Patch('updateAll')
   @UseGuards(AuthGuard())
+  @ApiBody({ type: [PriceUpdateProductDto] })
   priceUpdate(
-    @LoggedUser() user: Users,
+    @LoggedUser() user: Users, 
+    @Body() dto: PriceUpdateProductDto[]
   ) {
     if (!user.roleAdmin) {
       throw new UnauthorizedException(
         `Usuário ${user.nickname} não esta cadastrado como administrador`,
       );
     }
-    return this.productsService.priceUpdate(user.id,);
+    return this.productsService.priceUpdate(user.id, dto);
   }
 
   @UseGuards(AuthGuard())

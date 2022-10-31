@@ -6,6 +6,7 @@ import {
   Patch,
   Param,
   Delete,
+  Redirect,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -70,6 +71,7 @@ export class UsersController {
   }
 
   @Post('verification/:code')
+  //@Redirect("http://localhost:3000/login", 301)
   @ApiOperation({
     summary: 'Verifica se o codigo de confirmação é válido',
   })

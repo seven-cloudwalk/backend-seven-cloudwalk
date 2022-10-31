@@ -51,7 +51,7 @@ export class ProductService {
       .catch(handleErrorConstraintUnique);
   }
 
-  async priceUpdate(userId: string) {
+  async priceUpdate(userId: string, dto: PriceUpdateProductDto[]) {
     let Id = userId;
     let date = new Date();
     let response = [];
@@ -59,25 +59,23 @@ export class ProductService {
 
     // localiza desconto para o produto
     function findDiscount(id: string) {
-      return excelProducts.find((prod) => prod['A'] == id);
+      return excelProducts.find((prod) => prod['Codigo'] == id);
     }
 
     // localiza desconto para o prodto armazenado em DTO
     function hasProduct(row :PriceUpdateProductDto) {
-      return (row['A'] && row['B']) && (+row['__EMPTY'] > 1);
+      return (row['Codigo'] && row['Percentual']);
     }
 
     // carrega arquivo excel de produtos e descontos
-    let buffer = ( await LoadExcelData() ) as PriceUpdateProductDto[];
-    let excelProducts = buffer.filter( hasProduct );
-   
-    //console.log( 'excelProducts:', excelProducts);
+    //let buffer = ( await LoadExcelData() ) as PriceUpdateProductDto[];
+    let excelProducts = dto.filter( hasProduct );
 
     // le produtos da base de dados e armazena em array
     let productsOrigin = await this.prisma.product.findMany({
       where: {
         id: {
-          in: excelProducts.map((prod) => prod['A']),
+          in: excelProducts.map((prod) => prod['Codigo']),
         },
       },
       select: {
@@ -86,12 +84,13 @@ export class ProductService {
       },
     });
 
+    //console.log( 'excelProducts:', productsOrigin.length );
+
     // armazena as operações de alteração de preco em um array
     productsOrigin.map((p) => {
       // calcula desconto
-      let discount = findDiscount(p.id)['B'];
+      let discount = findDiscount(p.id)['Percentual'];
       let newPrice = p.price - (p.price * discount) / 100;
-
       // armazena as operações
       updates.push(
         this.prisma.product.update({
@@ -99,7 +98,6 @@ export class ProductService {
           data: { price: newPrice },
         }),
       );
-
       // armazena dados dos produtos para a resposta
       response.push({ id: p.id, price: p.price, newPrice: newPrice });
     });
