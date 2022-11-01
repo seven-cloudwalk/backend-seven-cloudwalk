@@ -122,40 +122,32 @@ export class UsersService {
     }
 
     // code exists
-    // muda status de usuário para ativo e retorna true
-    await this.update(user.id, { active: true });
-
-    return true;
-  }
-
-  async forgotPassword(email: string) {
-    const url = `https://seven-cloudwalk.herokuapp.com/users/send-recover-email`;
-    // const url = `http://localhost:3500/users/send-recover-email`;
-
-    const user = await this.prisma.users.findUnique({
-      where: { email: email },
-    });
-
-    if (!user) {
-      throw new NotFoundException('Não há usuário cadastrado com esse email.');
-    }
+    let _url = `https://seven-cloudwalk.herokuapp.com/users/recovery-confirmation`;
+    if (process.env.NODE_ENV === 'development') {
+      _url = `http://localhost:3500/users/recovery-confirmation`;
+    }    
 
     try {
       await this.mailerService.sendMail({
-        from: 'digitalentrepreneur042018@smtp.gmail.com',
         to: email,
         subject: 'Recuperação de senha',
         text: 'Recuperação de senha',
         template: './recovery-password',
         context: {
-          url,
+          url: _url,
         },
       });
-      return `E-mail de recuperação de senha ${email}`;
+
+      return { "statusCode": 200, "message": `Email sent for receipt ${email}` };
+
     } catch (error) {
       console.log(error);
 
       throw new BadRequestException(`Erro no envio de e-mail para ${email}`);
     }
   }
+
+  async forgotPassword() {
+  }
+
 }
