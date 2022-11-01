@@ -10,6 +10,7 @@ import * as bcrypt from 'bcrypt';
 import { Users } from '@prisma/client';
 import { handleErrorConstraintUnique } from './../utils/handle.error.utils';
 import { MailerService } from '@nestjs-modules/mailer';
+import { ChangePasswordDto } from './dto/change-password.dto';
 
 const saltRounds = 10;
 
@@ -42,17 +43,6 @@ export class UsersService {
 
   async create(dto: CreateUserDto) {
     dto.password = bcrypt.hashSync(dto.password, saltRounds);
-    const hasSpace = dto.nickname.replace(/ /g, '').toLowerCase();
-
-    const data: CreateUserDto = {
-      nickname: hasSpace,
-      email: dto.email,
-      password: dto.password,
-      accountType: dto.accountType,
-      roleAdmin: dto.roleAdmin,
-      verificationCode: dto.verificationCode,
-      active: false,
-    };
 
     try {
       // cria usuário no banco de dados
@@ -114,10 +104,10 @@ export class UsersService {
     }
 
     // if code exists muda status de usuário para ativo
-    return await this.prisma.users.update( 
-      { where: { id: user.id }, 
-        data: { active: true },
-      });
+    return await this.prisma.users.update({
+      where: { id: user.id },
+      data: { active: true },
+    });
   }
 
   async recovery(email: string) {
@@ -132,32 +122,32 @@ export class UsersService {
     }
 
     // code exists
-    // muda status de usuário para ativo e retorna true
-    await this.update(user.id, { active: true });
-
-    return true;
-  }
-
-  async forgotPassword(email: string) {
-    const url = `https://seven-cloudwalk.herokuapp.com/users/send-recover-email`;
-    // const url = `http://localhost:3500/users/send-recover-email`;
+    let _url = `https://seven-cloudwalk.herokuapp.com/users/recovery-confirmation`;
+    if (process.env.NODE_ENV === 'development') {
+      _url = `http://localhost:3500/users/recovery-confirmation`;
+    }    
 
     try {
       await this.mailerService.sendMail({
-        from: 'digitalentrepreneur042018@smtp.gmail.com',
         to: email,
         subject: 'Recuperação de senha',
         text: 'Recuperação de senha',
         template: './recovery-password',
         context: {
-          url,
+          url: _url,
         },
       });
-      return `E-mail de recuperação de senha ${email}`;
+
+      return { "statusCode": 200, "message": `Email sent for receipt ${email}` };
+
     } catch (error) {
       console.log(error);
 
       throw new BadRequestException(`Erro no envio de e-mail para ${email}`);
     }
   }
+
+  async forgotPassword() {
+  }
+
 }

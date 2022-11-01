@@ -6,6 +6,7 @@ import {
   Patch,
   Param,
   Delete,
+  Redirect,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -85,13 +86,14 @@ export class UsersController {
     return this.usersService.recovery(email);
   }
 
-  @Post('send-recover-email')
-  async sendRecoverPasswordEmail(
-    @Body('email') email: string,
-  ): Promise<{ message: string }> {
-    await this.usersService.forgotPassword(email);
-    return {
-      message: 'Foi enviado um email com instruções para resetar sua senha',
-    };
+  @Post('recovery-confirmation')
+  @Redirect('https://www.r7.com')           // página do front-end
+  @ApiOperation({
+    summary: 'Redireciona para página alteração senhas',
+  })
+  recoverConfirmation() {
+    //console.log('recoverConfirmation');
+
+    return;
   }
 }
