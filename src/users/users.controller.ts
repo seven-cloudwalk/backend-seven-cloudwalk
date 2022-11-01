@@ -87,13 +87,12 @@ export class UsersController {
   }
 
   @Post('recovery-confirmation')
-  @Redirect('https://www.r7.com')           // página do front-end
+  //@Redirect('https://www.r7.com')           // página do front-end
   @ApiOperation({
     summary: 'Redireciona para página alteração senhas',
   })
   recoverConfirmation() {
     //console.log('recoverConfirmation');
-
     return;
   }
 }
