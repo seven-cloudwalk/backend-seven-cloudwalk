@@ -71,7 +71,8 @@ export class UsersController {
   }
 
   @Post('verification/:code')
-  @ApiOperation({
+  @Redirect('https://nft-cloudwalk.vercel.app/email-validated')
+    @ApiOperation({
     summary: 'Verifica se o codigo de confirmação é válido',
   })
   verification(@Param('code') code: string) {
