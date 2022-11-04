@@ -72,7 +72,7 @@ export class UsersController {
 
   @Post('verification/:code')
   @Redirect('https://nft-cloudwalk.vercel.app/email-validated')
-    @ApiOperation({
+  @ApiOperation({
     summary: 'Verifica se o codigo de confirmação é válido',
   })
   verification(@Param('code') code: string) {
@@ -88,13 +88,12 @@ export class UsersController {
   }
 
   @Post('recovery-confirmation')
-  @Redirect('https://www.r7.com')           // página do front-end
+  @Redirect('https://www.r7.com') // página do front-end
   @ApiOperation({
     summary: 'Redireciona para página alteração senhas',
   })
   recoverConfirmation() {
     //console.log('recoverConfirmation');
-
     return;
   }
 }
