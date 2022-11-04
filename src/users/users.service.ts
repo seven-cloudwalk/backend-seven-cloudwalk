@@ -10,7 +10,6 @@ import * as bcrypt from 'bcrypt';
 import { Users } from '@prisma/client';
 import { handleErrorConstraintUnique } from './../utils/handle.error.utils';
 import { MailerService } from '@nestjs-modules/mailer';
-import { ChangePasswordDto } from './dto/change-password.dto';
 
 const saltRounds = 10;
 
@@ -125,7 +124,7 @@ export class UsersService {
     let _url = `https://seven-cloudwalk.herokuapp.com/users/recovery-confirmation`;
     if (process.env.NODE_ENV === 'development') {
       _url = `http://localhost:3500/users/recovery-confirmation`;
-    }    
+    }
 
     try {
       await this.mailerService.sendMail({
@@ -138,8 +137,7 @@ export class UsersService {
         },
       });
 
-      return { "statusCode": 200, "message": `Email sent for receipt ${email}` };
-
+      return { statusCode: 200, message: `Email sent for receipt ${email}` };
     } catch (error) {
       console.log(error);
 
@@ -147,7 +145,5 @@ export class UsersService {
     }
   }
 
-  async forgotPassword() {
-  }
-
+  // async forgotPassword() {}
 }
