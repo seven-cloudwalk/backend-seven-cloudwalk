@@ -94,7 +94,6 @@ export class UsersController {
   })
   recoverConfirmation() {
     //console.log('recoverConfirmation');
-
     return;
   }
 }
