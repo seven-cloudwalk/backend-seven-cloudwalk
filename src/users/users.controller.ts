@@ -88,7 +88,7 @@ export class UsersController {
   }
 
   @Post('recovery-confirmation')
-  @Redirect('https://www.r7.com') // página do front-end
+  @Redirect('https://nft-cloudwalk.vercel.app/update-password', 301) // página do front-end
   @ApiOperation({
     summary: 'Redireciona para página alteração senhas',
   })
