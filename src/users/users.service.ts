@@ -137,7 +137,7 @@ export class UsersService {
         },
       });
 
-      return { statusCode: 200, message: `Email sent for receipt ${email}` };
+      return { statusCode: 200, message: `Enviado para o email: ${email}` };
     } catch (error) {
       console.log(error);
 
