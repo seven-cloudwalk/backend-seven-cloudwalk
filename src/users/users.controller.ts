@@ -7,6 +7,7 @@ import {
   Param,
   Delete,
   Redirect,
+  Res,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -79,7 +80,7 @@ export class UsersController {
     return this.usersService.verification(code);
   }
 
-  @Patch('recovery/:email')
+  @Post('recovery/:email')
   @ApiOperation({
     summary: 'Verifica se o e-mail existe',
   })
@@ -87,14 +88,18 @@ export class UsersController {
     return this.usersService.recovery(email);
   }
 
-  @Post('recovery-confirmation')
-  @Redirect('https://www.r7.com')           // página do front-end
+  @Post('recovery-confirmation/:id')
   @ApiOperation({
-    summary: 'Redireciona para página alteração senhas',
+    summary: 'Redireciona para página de alteração senhas',
   })
-  recoverConfirmation() {
-    //console.log('recoverConfirmation');
+  async recoverConfirmation(
+    @Res() res,
+    @Param('id') id: string ) {
 
-    return;
+    //console.log( 'id:', id);
+
+    // redirectiona para tela de alteração de senhas infornando qual é o usuário
+    return res.status(302).redirect(`https://nft-cloudwalk.vercel.app/update-password/${id}`);
+
   }
 }
