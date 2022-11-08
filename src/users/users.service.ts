@@ -134,11 +134,12 @@ export class UsersService {
         template: './recovery-password',
         context: {
           url: _url,
+          id: user.id,
+          change: ChangePasswordDto,
         },
       });
 
-      return { "statusCode": 200, "message": `Email sent for receipt ${email}` };
-
+      return { statusCode: 200, message: `Enviado para o email: ${email}` };
     } catch (error) {
       console.log(error);
 
@@ -146,7 +147,5 @@ export class UsersService {
     }
   }
 
-  async forgotPassword() {
-  }
-
+  // async forgotPassword() {}
 }
