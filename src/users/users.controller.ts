@@ -98,7 +98,7 @@ export class UsersController {
     @Param('id') id: string,
     @Body(ValidationPipe) changePasswordDto: ChangePasswordDto,
   ): Promise<{ message: string }> {
-    await this.usersService.recovery(id, changePasswordDto);
+    await this.usersService.update(id, changePasswordDto);
 
     return {
       message: 'Senha alterada com sucesso! ',
