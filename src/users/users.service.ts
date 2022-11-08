@@ -134,8 +134,6 @@ export class UsersService {
         template: './recovery-password',
         context: {
           url: _url,
-          id: user.id,
-          change: ChangePasswordDto,
         },
       });
 
