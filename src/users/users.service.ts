@@ -10,6 +10,7 @@ import * as bcrypt from 'bcrypt';
 import { Users } from '@prisma/client';
 import { handleErrorConstraintUnique } from './../utils/handle.error.utils';
 import { MailerService } from '@nestjs-modules/mailer';
+import { ChangePasswordDto } from './dto/change-password.dto';
 
 const saltRounds = 10;
 
@@ -134,6 +135,8 @@ export class UsersService {
         template: './recovery-password',
         context: {
           url: _url,
+          id: user.id,
+          change: ChangePasswordDto,
         },
       });
 
