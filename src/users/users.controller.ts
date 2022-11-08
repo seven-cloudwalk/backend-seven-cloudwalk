@@ -7,12 +7,14 @@ import {
   Param,
   Delete,
   Redirect,
+  ValidationPipe,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { ApiTags, ApiOperation } from '@nestjs/swagger';
 import { MailService } from 'src/mail/mail.service';
+import { ChangePasswordDto } from './dto/change-password.dto';
 
 @ApiTags('users')
 @Controller('users')
@@ -87,13 +89,19 @@ export class UsersController {
     return this.usersService.recovery(email);
   }
 
-  @Post('recovery-confirmation')
-  @Redirect('https://nft-cloudwalk.vercel.app/update-password', 301) // página do front-end
+  @Patch('recovery-confirmation/:id')
+  @Redirect('https://nft-cloudwalk.vercel.app/update-password/:id', 301) // página do front-end
   @ApiOperation({
     summary: 'Redireciona para página alteração senhas',
   })
-  recoverConfirmation() {
-    //console.log('recoverConfirmation');
-    return;
+  async recoverConfirmation(
+    @Param('id') id: string,
+    @Body(ValidationPipe) changePasswordDto: ChangePasswordDto,
+  ): Promise<{ message: string }> {
+    await this.usersService.recovery(id, changePasswordDto);
+
+    return {
+      message: 'Senha alterada com sucesso! ',
+    };
   }
 }
