@@ -46,5 +46,5 @@ export class AuthService {
 /*
  user: name um
  email: hefi1413@gmail
- password: 5PT!7fmQ
+ password: 5PT$7fmQ
 */
