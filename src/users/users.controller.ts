@@ -94,9 +94,9 @@ export class UsersController {
   })
   async recoverConfirmation(@Res() res, @Param('id') id: string) {
     // redirectiona para tela de alteração de senhas infornando qual é o usuário
-    // console.log(res);
+    console.log(res);
     return res
       .status(302)
-      .redirect(`https://nft-cloudwalk.vercel.app/update-password`);
+      .redirect(`https://nft-cloudwalk.vercel.app/update-password/${id}`);
   }
 }
