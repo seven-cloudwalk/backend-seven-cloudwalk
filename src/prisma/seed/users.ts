@@ -8,15 +8,15 @@ export const users: Prisma.UsersCreateInput[] = [
     password: 'Abc1234*',
     accountType: 'PF',
     roleAdmin: true,
-    verificationCode: '3',
+    verificationCode: '1',
   },
   {
     nickname: 'Keven Ferreira',
-    email: 'jaymesonmendes@gmail.com',
+    email: 'keven.ferreira@hotmail.com',
     password: 'Abc1234*',
     accountType: 'PF',
     roleAdmin: true,
-    verificationCode: '3',
+    verificationCode: '2',
   },
   {
     nickname: 'Elieldo Martins',
@@ -24,7 +24,7 @@ export const users: Prisma.UsersCreateInput[] = [
     password: 'Abc1234*',
     accountType: 'PF',
     roleAdmin: true,
-    verificationCode: '3',
+    verificationCode: '4',
   },
   {
     nickname: 'Karen Lourenço',
@@ -32,7 +32,7 @@ export const users: Prisma.UsersCreateInput[] = [
     password: 'Abc1234*',
     accountType: 'PF',
     roleAdmin: true,
-    verificationCode: '3',
+    verificationCode: '5',
   },
 ];
 
