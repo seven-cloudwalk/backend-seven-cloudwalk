@@ -73,7 +73,7 @@ export class UsersController {
 
   @Post('verification/:code')
   @Redirect('https://nft-cloudwalk.vercel.app/email-validated')
-    @ApiOperation({
+  @ApiOperation({
     summary: 'Verifica se o codigo de confirmação é válido',
   })
   verification(@Param('code') code: string) {
@@ -92,14 +92,11 @@ export class UsersController {
   @ApiOperation({
     summary: 'Redireciona para página de alteração senhas',
   })
-  async recoverConfirmation(
-    @Res() res,
-    @Param('id') id: string ) {
-
-    //console.log( 'id:', id);
-
+  async recoverConfirmation(@Res() res, @Param('id') id: string) {
     // redirectiona para tela de alteração de senhas infornando qual é o usuário
-    return res.status(302).redirect(`https://nft-cloudwalk.vercel.app/update-password/${id}`);
-
+    console.log(res);
+    return res
+      .status(302)
+      .redirect(`https://nft-cloudwalk.vercel.app/update-password/${id}`);
   }
 }

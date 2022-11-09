@@ -23,8 +23,10 @@ export class MailService {
         },
       });
 
-      return { "statusCode": 200, "message": `Email sent for receipt ${user.email}` };
-
+      return {
+        statusCode: 200,
+        message: `Email sent for receipt ${user.email}`,
+      };
     } catch (error) {
       console.log(error);
 
