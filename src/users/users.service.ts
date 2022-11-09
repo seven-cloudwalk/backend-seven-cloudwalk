@@ -42,6 +42,7 @@ export class UsersService {
   }
 
   async create(dto: CreateUserDto) {
+
     dto.password = bcrypt.hashSync(dto.password, saltRounds);
 
     try {
@@ -62,6 +63,31 @@ export class UsersService {
       throw new NotFoundException(`Registro ID:'${_id}' não localizado.`);
     }
 
+    if( _data.password ) {
+      _data.password = bcrypt.hashSync(_data.password, saltRounds);
+    }
+
+    try {
+      // altera usuário no banco de dados
+      return await this.prisma.users.update({
+        where: { id: _id },
+        data: _data,
+      })
+      } catch (error) {
+      console.log(error);
+      return handleErrorConstraintUnique(error);
+    }
+  }
+
+  /*
+  async updatePassword(_id: string, dto: UpdateUserDto) {
+    const _data: Partial<Users> = { ...dto };
+    const record = await this.prisma.users.findUnique({ where: { id: _id } });
+
+    if (!record) {
+      throw new NotFoundException(`Registro ID:'${_id}' não localizado.`);
+    }
+
     return this.prisma.users
       .update({
         where: { id: _id },
@@ -69,6 +95,7 @@ export class UsersService {
       })
       .catch(handleErrorConstraintUnique);
   }
+  */
 
   async delete(_id: string) {
     const record = await this.prisma.users.findUnique({
@@ -145,6 +172,5 @@ export class UsersService {
       throw new BadRequestException(`Erro no envio de e-mail para ${email}`);
     }
   }
-
   // async forgotPassword() {}
 }

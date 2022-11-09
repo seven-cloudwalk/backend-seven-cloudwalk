@@ -8,12 +8,14 @@ import {
   Delete,
   Redirect,
   Res,
+  UnprocessableEntityException,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { ApiTags, ApiOperation } from '@nestjs/swagger';
 import { MailService } from 'src/mail/mail.service';
+import { ChangePasswordDto } from './dto/change-password.dto';
 
 @ApiTags('users')
 @Controller('users')
@@ -63,6 +65,20 @@ export class UsersController {
     return this.usersService.update(id, updateUserDto);
   }
 
+  @Patch('updatePassword/:id')
+  @ApiOperation({
+    summary: 'Alterar senha de um usuário',
+  })
+  changePassword(@Param('id') id: string, @Body() dto: ChangePasswordDto) {
+    const { password, passwordConfirmation } = dto;
+
+    if (password != passwordConfirmation) {
+      throw new UnprocessableEntityException('As senhas não conferem');
+    }
+
+    return this.usersService.update(id, { password: password });
+  }
+
   @Delete('delete/:id')
   @ApiOperation({
     summary: 'Deletar um usuário',
@@ -93,8 +109,8 @@ export class UsersController {
     summary: 'Redireciona para página de alteração senhas',
   })
   async recoverConfirmation(@Res() res, @Param('id') id: string) {
-    // redirectiona para tela de alteração de senhas infornando qual é o usuário
-    console.log(res);
+    // redireciona para tela de alteração de senhas infornando qual é o usuário
+    //console.log(res);
     return res
       .status(302)
       .redirect(`https://nft-cloudwalk.vercel.app/update-password/${id}`);
