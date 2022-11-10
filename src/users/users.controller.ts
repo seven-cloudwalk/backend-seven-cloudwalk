@@ -109,7 +109,7 @@ export class UsersController {
     summary: 'Redireciona para página de alteração senhas',
   })
   async recoverConfirmation(@Res() res, @Param('id') id: string) {
-    // redireciona para tela de alteração de senhas infornando qual é o usuário
+    // redirectiona para tela de alteração de senhas infornando qual é o usuário
     //console.log(res);
     return res
       .status(302)
