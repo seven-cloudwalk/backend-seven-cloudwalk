@@ -60,7 +60,7 @@ export class UsersService {
     const record = await this.prisma.users.findUnique({ where: { id: _id } });
 
     if (!record) {
-      throw new NotFoundException(`Registro ID:'${_id}' não localizado.`);
+      throw new NotFoundException(`Registro ID: ${_id} não localizado.`);
     }
 
     if( _data.password ) {

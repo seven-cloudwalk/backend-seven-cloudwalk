@@ -1,3 +1,4 @@
+import { ApiProperty } from '@nestjs/swagger';
 import { IsString, MinLength, MaxLength, Matches } from 'class-validator';
 
 export class ChangePasswordDto {
@@ -14,6 +15,11 @@ export class ChangePasswordDto {
     message:
       'A senha deve conter pelo menos uma letra maiúscula, uma letra minúscula, um número ou um símbulo',
   })
+  @ApiProperty({
+    description:
+      'Nova senha do usuário.',
+    example: 'te$Ste456',
+  })
   password: string;
 
   @IsString({
@@ -28,6 +34,11 @@ export class ChangePasswordDto {
   @Matches(/((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/, {
     message:
       'A senha deve conter pelo menos uma letra maiúscula, uma letra minúscula, um número ou um símbulo',
+  })
+  @ApiProperty({
+    description:
+      'Confirmação da senha do usuário.',
+    example: 'te$Ste456',
   })
   passwordConfirmation: string;
 }
