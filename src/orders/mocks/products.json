@@ -1,0 +1,30 @@
+
+[
+    {
+        "id": "xxxxx-xxxxxxx-0",
+        "cod": 1002,
+        "name": "nome 1000",
+        "description": "produto nome 1000",
+        "price": 100,
+        "image": "true",
+        "stock": true
+    },
+    {
+        "id": "xxxxx-xxxxxxx-1",
+        "cod": 1001,
+        "name": "nome 1001",
+        "description": "produto nome 1001",
+        "price": 200,
+        "image": "true",
+        "stock": true
+    },
+    {
+        "id": "xxxxx-xxxxxxx-2",
+        "cod": 1000,
+        "name": "nome 1000",
+        "description": "produto nome 1000",
+        "price": 100,
+        "image": "",
+        "stock": true
+    }
+]
